@@ -73,6 +73,11 @@ public class BarbecueBlockEntity extends LockableContainerBlockEntity {
 	}
 
 	@Override
+	public int getMaxCountPerStack() {
+		return 1;
+	}
+
+	@Override
 	public void clear() {
 		inventory.clear();
 	}
