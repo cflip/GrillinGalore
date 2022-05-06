@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "id": "grillingalore",
+  "version": "${version}",
+
+  "name": "Grillin' Galore",
+  "description": "A BBQ-themed Minecraft mod!",
+  "authors": [
+    "cflip",
+    "Kjolt"
+  ],
+  "contact": {
+    "sources": "https://github.com/cflip/GrillinGalore"
+  },
+
+  "license": "CC0-1.0",
+  "icon": "assets/grillingalore/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.cflip.grillingalore.GrillinGalore"
+    ],
+    "client": [
+      "net.cflip.grillingalore.client.GrillinGaloreClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.13.3",
+    "fabric": "*",
+    "minecraft": "~1.18.2",
+    "java": ">=17"
+  }
+}
