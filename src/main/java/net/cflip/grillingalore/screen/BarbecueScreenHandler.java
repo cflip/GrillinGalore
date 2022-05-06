@@ -6,20 +6,25 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.ArrayPropertyDelegate;
+import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 
 public class BarbecueScreenHandler extends ScreenHandler {
 	private final Inventory inventory;
+	private final PropertyDelegate propertyDelegate;
 
 	public BarbecueScreenHandler(int syncId, PlayerInventory playerInventory) {
-		this(syncId, playerInventory, new SimpleInventory(8));
+		this(syncId, playerInventory, new SimpleInventory(8), new ArrayPropertyDelegate(8));
 	}
 
-	public BarbecueScreenHandler(int syncId, PlayerInventory playerInventory, Inventory barbecueInventory) {
+	public BarbecueScreenHandler(int syncId, PlayerInventory playerInventory, Inventory barbecueInventory, PropertyDelegate propertyDelegate) {
 		super(ModScreens.BARBECUE, syncId);
 		int i, j;
 		inventory = barbecueInventory;
+		this.propertyDelegate = propertyDelegate;
+		addProperties(propertyDelegate);
 		barbecueInventory.onOpen(playerInventory.player);
 
 		// Barbecue inventory slots
@@ -38,6 +43,10 @@ public class BarbecueScreenHandler extends ScreenHandler {
 		for (i = 0; i < 9; ++i) {
 			this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
 		}
+	}
+
+	public int getCookProgress(int index) {
+		return propertyDelegate.get(index);
 	}
 
 	@Override

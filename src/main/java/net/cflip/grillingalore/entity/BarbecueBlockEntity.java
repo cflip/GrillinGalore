@@ -13,6 +13,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.SmokingRecipe;
+import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -27,6 +28,25 @@ public class BarbecueBlockEntity extends LockableContainerBlockEntity {
 	private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(INVENTORY_SIZE, ItemStack.EMPTY);
 	private final int[] cookingTimes = new int[INVENTORY_SIZE];
 	private final int[] totalCookingTimes = new int[INVENTORY_SIZE];
+
+	private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
+		@Override
+		public int get(int index) {
+			if (inventory.get(index).isEmpty() || totalCookingTimes[index] <= 0)
+				return 0;
+			return (int) (((float) cookingTimes[index] / (float) totalCookingTimes[index]) * 16.f);
+		}
+
+		@Override
+		public void set(int index, int value) {
+			cookingTimes[index] = value;
+		}
+
+		@Override
+		public int size() {
+			return INVENTORY_SIZE;
+		}
+	};
 
 	public BarbecueBlockEntity(BlockPos pos, BlockState state) {
 		super(ModBlockEntities.BARBECUE, pos, state);
@@ -51,6 +71,7 @@ public class BarbecueBlockEntity extends LockableContainerBlockEntity {
 			SimpleInventory tempInventory = new SimpleInventory(itemStack);
 			ItemStack cookedItem = getRecipeFor(world, itemStack).map(recipe -> recipe.craft(tempInventory)).orElse(itemStack);
 			barbecue.inventory.set(i, cookedItem);
+			barbecue.totalCookingTimes[i] = -1;
 		}
 
 		if (shouldMarkDirty)
@@ -64,7 +85,7 @@ public class BarbecueBlockEntity extends LockableContainerBlockEntity {
 
 	@Override
 	protected ScreenHandler createScreenHandler(int syncId, PlayerInventory playerInventory) {
-		return new BarbecueScreenHandler(syncId, playerInventory, this);
+		return new BarbecueScreenHandler(syncId, playerInventory, this, propertyDelegate);
 	}
 
 	@Override
