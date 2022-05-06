@@ -10,6 +10,7 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.SmokingRecipe;
 import net.minecraft.screen.ScreenHandler;
@@ -17,14 +18,43 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 import java.util.Optional;
 
 public class BarbecueBlockEntity extends LockableContainerBlockEntity {
-	private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(8, ItemStack.EMPTY);
+	private static final int INVENTORY_SIZE = 8;
+	private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(INVENTORY_SIZE, ItemStack.EMPTY);
+	private final int[] cookingTimes = new int[INVENTORY_SIZE];
+	private final int[] totalCookingTimes = new int[INVENTORY_SIZE];
 
 	public BarbecueBlockEntity(BlockPos pos, BlockState state) {
 		super(ModBlockEntities.BARBECUE, pos, state);
+	}
+
+	public static Optional<SmokingRecipe> getRecipeFor(World world, ItemStack item) {
+		return world.getRecipeManager().getFirstMatch(RecipeType.SMOKING, new SimpleInventory(item), world);
+	}
+
+	public static void tick(World world, BlockPos pos, BlockState state, BarbecueBlockEntity barbecue) {
+		boolean shouldMarkDirty = false;
+		for (int i = 0; i < barbecue.inventory.size(); i++) {
+			ItemStack itemStack = barbecue.inventory.get(i);
+			if (itemStack.isEmpty() || getRecipeFor(world, itemStack).isEmpty())
+				continue;
+
+			shouldMarkDirty = true;
+			barbecue.cookingTimes[i]++;
+			if (barbecue.cookingTimes[i] < barbecue.totalCookingTimes[i])
+				continue;
+
+			SimpleInventory tempInventory = new SimpleInventory(itemStack);
+			ItemStack cookedItem = getRecipeFor(world, itemStack).map(recipe -> recipe.craft(tempInventory)).orElse(itemStack);
+			barbecue.inventory.set(i, cookedItem);
+		}
+
+		if (shouldMarkDirty)
+			barbecue.markDirty();
 	}
 
 	@Override
@@ -50,9 +80,8 @@ public class BarbecueBlockEntity extends LockableContainerBlockEntity {
 
 		Optional<SmokingRecipe> optionalRecipe = world.getRecipeManager().getFirstMatch(RecipeType.SMOKING, new SimpleInventory(stack), world);
 		optionalRecipe.ifPresent(recipe -> {
-			ItemStack cookedStack = recipe.craft(this);
-			cookedStack.setCount(stack.getCount());
-			inventory.set(slot, cookedStack);
+			cookingTimes[slot] = 0;
+			totalCookingTimes[slot] = recipe.getCookTime();
 			markDirty();
 		});
 	}
@@ -101,12 +130,23 @@ public class BarbecueBlockEntity extends LockableContainerBlockEntity {
 	@Override
 	public void readNbt(NbtCompound nbt) {
 		super.readNbt(nbt);
+		int[] tempArray;
 		Inventories.readNbt(nbt, inventory);
+		if (nbt.contains("CookingTimes", NbtElement.INT_ARRAY_TYPE)) {
+			tempArray = nbt.getIntArray("CookingTimes");
+			System.arraycopy(tempArray, 0, cookingTimes, 0, Math.min(totalCookingTimes.length, tempArray.length));
+		}
+		if (nbt.contains("TotalCookingTimes", NbtElement.INT_ARRAY_TYPE)) {
+			tempArray = nbt.getIntArray("TotalCookingTimes");
+			System.arraycopy(tempArray, 0, totalCookingTimes, 0, Math.min(totalCookingTimes.length, tempArray.length));
+		}
 	}
 
 	@Override
 	protected void writeNbt(NbtCompound nbt) {
 		super.writeNbt(nbt);
 		Inventories.writeNbt(nbt, inventory);
+		nbt.putIntArray("CookingTimes", cookingTimes);
+		nbt.putIntArray("TotalCookingTimes", totalCookingTimes);
 	}
 }

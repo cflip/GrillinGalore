@@ -1,10 +1,13 @@
 package net.cflip.grillingalore.block;
 
 import net.cflip.grillingalore.entity.BarbecueBlockEntity;
+import net.cflip.grillingalore.registry.ModBlockEntities;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.util.ActionResult;
@@ -32,6 +35,14 @@ public class BarbecueBlock extends BlockWithEntity {
 			}
 		}
 		return ActionResult.SUCCESS;
+	}
+
+	@Override
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+		if (!world.isClient()) {
+			return BarbecueBlock.checkType(type, ModBlockEntities.BARBECUE, BarbecueBlockEntity::tick);
+		}
+		return super.getTicker(world, state, type);
 	}
 
 	@Override
