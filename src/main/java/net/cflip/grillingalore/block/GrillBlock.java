@@ -1,6 +1,6 @@
 package net.cflip.grillingalore.block;
 
-import net.cflip.grillingalore.entity.BarbecueBlockEntity;
+import net.cflip.grillingalore.entity.GrillBlockEntity;
 import net.cflip.grillingalore.registry.ModBlockEntities;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -16,8 +16,8 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BarbecueBlock extends BlockWithEntity {
-	public BarbecueBlock(Settings settings) {
+public class GrillBlock extends BlockWithEntity {
+	public GrillBlock(Settings settings) {
 		super(settings);
 	}
 
@@ -40,13 +40,13 @@ public class BarbecueBlock extends BlockWithEntity {
 	@Override
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
 		if (!world.isClient()) {
-			return BarbecueBlock.checkType(type, ModBlockEntities.BARBECUE, BarbecueBlockEntity::tick);
+			return GrillBlock.checkType(type, ModBlockEntities.GRILL, GrillBlockEntity::tick);
 		}
 		return super.getTicker(world, state, type);
 	}
 
 	@Override
 	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-		return new BarbecueBlockEntity(pos, state);
+		return new GrillBlockEntity(pos, state);
 	}
 }

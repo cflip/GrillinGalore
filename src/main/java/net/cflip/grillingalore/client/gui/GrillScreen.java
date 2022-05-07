@@ -2,7 +2,7 @@ package net.cflip.grillingalore.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.cflip.grillingalore.GrillinGalore;
-import net.cflip.grillingalore.screen.BarbecueScreenHandler;
+import net.cflip.grillingalore.screen.GrillScreenHandler;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -14,10 +14,10 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
-public class BarbecueScreen extends HandledScreen<BarbecueScreenHandler> {
-	private static final Identifier TEXTURE = new Identifier(GrillinGalore.MODID, "textures/gui/container/barbecue.png");
+public class GrillScreen extends HandledScreen<GrillScreenHandler> {
+	private static final Identifier TEXTURE = new Identifier(GrillinGalore.MODID, "textures/gui/container/grill.png");
 
-	public BarbecueScreen(BarbecueScreenHandler handler, PlayerInventory inventory, Text title) {
+	public GrillScreen(GrillScreenHandler handler, PlayerInventory inventory, Text title) {
 		super(handler, inventory, title);
 	}
 

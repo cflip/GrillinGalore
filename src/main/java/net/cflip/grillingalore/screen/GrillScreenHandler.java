@@ -11,26 +11,26 @@ import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 
-public class BarbecueScreenHandler extends ScreenHandler {
+public class GrillScreenHandler extends ScreenHandler {
 	private final Inventory inventory;
 	private final PropertyDelegate propertyDelegate;
 
-	public BarbecueScreenHandler(int syncId, PlayerInventory playerInventory) {
+	public GrillScreenHandler(int syncId, PlayerInventory playerInventory) {
 		this(syncId, playerInventory, new SimpleInventory(8), new ArrayPropertyDelegate(8));
 	}
 
-	public BarbecueScreenHandler(int syncId, PlayerInventory playerInventory, Inventory barbecueInventory, PropertyDelegate propertyDelegate) {
-		super(ModScreens.BARBECUE, syncId);
+	public GrillScreenHandler(int syncId, PlayerInventory playerInventory, Inventory grillInventory, PropertyDelegate propertyDelegate) {
+		super(ModScreens.GRILL, syncId);
 		int i, j;
-		inventory = barbecueInventory;
+		inventory = grillInventory;
 		this.propertyDelegate = propertyDelegate;
 		addProperties(propertyDelegate);
-		barbecueInventory.onOpen(playerInventory.player);
+		grillInventory.onOpen(playerInventory.player);
 
-		// Barbecue inventory slots
+		// Grill inventory slots
 		for (i = 0; i < 2; i++) {
 			for (j = 0; j < 4; j++) {
-				addSlot(new Slot(barbecueInventory, j + i * 4, 53 + j * 18, 26 + i * 18));
+				addSlot(new Slot(grillInventory, j + i * 4, 53 + j * 18, 26 + i * 18));
 			}
 		}
 

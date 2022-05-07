@@ -1,7 +1,7 @@
 package net.cflip.grillingalore.entity;
 
 import net.cflip.grillingalore.registry.ModBlockEntities;
-import net.cflip.grillingalore.screen.BarbecueScreenHandler;
+import net.cflip.grillingalore.screen.GrillScreenHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.LockableContainerBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -23,7 +23,7 @@ import net.minecraft.world.World;
 
 import java.util.Optional;
 
-public class BarbecueBlockEntity extends LockableContainerBlockEntity {
+public class GrillBlockEntity extends LockableContainerBlockEntity {
 	private static final int INVENTORY_SIZE = 8;
 	private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(INVENTORY_SIZE, ItemStack.EMPTY);
 	private final int[] cookingTimes = new int[INVENTORY_SIZE];
@@ -48,44 +48,44 @@ public class BarbecueBlockEntity extends LockableContainerBlockEntity {
 		}
 	};
 
-	public BarbecueBlockEntity(BlockPos pos, BlockState state) {
-		super(ModBlockEntities.BARBECUE, pos, state);
+	public GrillBlockEntity(BlockPos pos, BlockState state) {
+		super(ModBlockEntities.GRILL, pos, state);
 	}
 
 	public static Optional<SmokingRecipe> getRecipeFor(World world, ItemStack item) {
 		return world.getRecipeManager().getFirstMatch(RecipeType.SMOKING, new SimpleInventory(item), world);
 	}
 
-	public static void tick(World world, BlockPos pos, BlockState state, BarbecueBlockEntity barbecue) {
+	public static void tick(World world, BlockPos pos, BlockState state, GrillBlockEntity grill) {
 		boolean shouldMarkDirty = false;
-		for (int i = 0; i < barbecue.inventory.size(); i++) {
-			ItemStack itemStack = barbecue.inventory.get(i);
+		for (int i = 0; i < grill.inventory.size(); i++) {
+			ItemStack itemStack = grill.inventory.get(i);
 			if (itemStack.isEmpty() || getRecipeFor(world, itemStack).isEmpty())
 				continue;
 
 			shouldMarkDirty = true;
-			barbecue.cookingTimes[i]++;
-			if (barbecue.cookingTimes[i] < barbecue.totalCookingTimes[i])
+			grill.cookingTimes[i]++;
+			if (grill.cookingTimes[i] < grill.totalCookingTimes[i])
 				continue;
 
 			SimpleInventory tempInventory = new SimpleInventory(itemStack);
 			ItemStack cookedItem = getRecipeFor(world, itemStack).map(recipe -> recipe.craft(tempInventory)).orElse(itemStack);
-			barbecue.inventory.set(i, cookedItem);
-			barbecue.totalCookingTimes[i] = -1;
+			grill.inventory.set(i, cookedItem);
+			grill.totalCookingTimes[i] = -1;
 		}
 
 		if (shouldMarkDirty)
-			barbecue.markDirty();
+			grill.markDirty();
 	}
 
 	@Override
 	protected Text getContainerName() {
-		return new TranslatableText("container.barbecue");
+		return new TranslatableText("container.grill");
 	}
 
 	@Override
 	protected ScreenHandler createScreenHandler(int syncId, PlayerInventory playerInventory) {
-		return new BarbecueScreenHandler(syncId, playerInventory, this, propertyDelegate);
+		return new GrillScreenHandler(syncId, playerInventory, this, propertyDelegate);
 	}
 
 	@Override
