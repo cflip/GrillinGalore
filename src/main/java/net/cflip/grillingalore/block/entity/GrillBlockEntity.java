@@ -1,4 +1,4 @@
-package net.cflip.grillingalore.entity;
+package net.cflip.grillingalore.block.entity;
 
 import net.cflip.grillingalore.registry.ModBlockEntities;
 import net.cflip.grillingalore.screen.GrillScreenHandler;

@@ -1,7 +1,7 @@
 package net.cflip.grillingalore.registry;
 
 import net.cflip.grillingalore.GrillinGalore;
-import net.cflip.grillingalore.entity.GrillBlockEntity;
+import net.cflip.grillingalore.block.entity.GrillBlockEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.Identifier;

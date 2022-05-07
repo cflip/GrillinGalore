@@ -1,6 +1,6 @@
 package net.cflip.grillingalore.block;
 
-import net.cflip.grillingalore.entity.GrillBlockEntity;
+import net.cflip.grillingalore.block.entity.GrillBlockEntity;
 import net.cflip.grillingalore.registry.ModBlockEntities;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
