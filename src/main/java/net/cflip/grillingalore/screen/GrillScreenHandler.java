@@ -76,7 +76,7 @@ public class GrillScreenHandler extends ScreenHandler {
 				if (!insertItem(originalStack, inventory.size(), slots.size(), true)) {
 					return ItemStack.EMPTY;
 				}
-			} else if (!insertItem(originalStack, 0, inventory.size(), false)) {
+			} else {
 				return ItemStack.EMPTY;
 			}
 
