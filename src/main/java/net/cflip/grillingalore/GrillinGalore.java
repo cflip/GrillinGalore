@@ -2,6 +2,7 @@ package net.cflip.grillingalore;
 
 import net.cflip.grillingalore.registry.ModBlockEntities;
 import net.cflip.grillingalore.registry.ModBlocks;
+import net.cflip.grillingalore.registry.ModItems;
 import net.fabricmc.api.ModInitializer;
 
 public class GrillinGalore implements ModInitializer {
@@ -10,6 +11,7 @@ public class GrillinGalore implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		ModBlocks.register();
+		ModItems.register();
 		ModBlockEntities.register();
 	}
 }
