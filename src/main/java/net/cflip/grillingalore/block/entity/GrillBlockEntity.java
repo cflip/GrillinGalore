@@ -4,11 +4,13 @@ import net.cflip.grillingalore.block.GrillBlock;
 import net.cflip.grillingalore.registry.ModBlockEntities;
 import net.cflip.grillingalore.screen.GrillScreenHandler;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.block.entity.LockableContainerBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -22,11 +24,13 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.Map;
 import java.util.Optional;
 
 public class GrillBlockEntity extends LockableContainerBlockEntity {
 	private static final int GRILL_SIZE = 8;
 	private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(GRILL_SIZE + 1, ItemStack.EMPTY);
+	private final Map<Item, Integer> fuelTimeMap;
 
 	private final int[] cookingTimes = new int[GRILL_SIZE];
 	private final int[] totalCookingTimes = new int[GRILL_SIZE];
@@ -41,7 +45,10 @@ public class GrillBlockEntity extends LockableContainerBlockEntity {
 					return 0;
 				return (int) (((float) cookingTimes[index] / (float) totalCookingTimes[index]) * 16.f);
 			}
-			return remainingFuel * 13 / maxRemainingFuel;
+			int totalFuel = maxRemainingFuel;
+			if (totalFuel == 0)
+				totalFuel = 200;
+			return remainingFuel * 13 / totalFuel;
 		}
 
 		@Override
@@ -59,6 +66,7 @@ public class GrillBlockEntity extends LockableContainerBlockEntity {
 		super(ModBlockEntities.GRILL, pos, state);
 		remainingFuel = 0;
 		maxRemainingFuel = 500;
+		fuelTimeMap = AbstractFurnaceBlockEntity.createFuelTimeMap();
 	}
 
 	public static Optional<SmokingRecipe> getRecipeFor(World world, ItemStack item) {
@@ -131,8 +139,8 @@ public class GrillBlockEntity extends LockableContainerBlockEntity {
 		}
 
 		if (slot == 8 && !stack.isEmpty() && !isSameItem) {
+			remainingFuel = maxRemainingFuel = fuelTimeMap.getOrDefault(stack.getItem(), 0);
 			stack.decrement(1);
-			remainingFuel = maxRemainingFuel;
 			markDirty();
 		}
 	}
@@ -187,6 +195,7 @@ public class GrillBlockEntity extends LockableContainerBlockEntity {
 			System.arraycopy(tempArray, 0, totalCookingTimes, 0, Math.min(totalCookingTimes.length, tempArray.length));
 		}
 		remainingFuel = nbt.getShort("RemainingFuel");
+		maxRemainingFuel = nbt.getShort("MaxRemainingFuel");
 	}
 
 	@Override
@@ -196,5 +205,6 @@ public class GrillBlockEntity extends LockableContainerBlockEntity {
 		nbt.putIntArray("CookingTimes", cookingTimes);
 		nbt.putIntArray("TotalCookingTimes", totalCookingTimes);
 		nbt.putShort("RemainingFuel", (short)remainingFuel);
+		nbt.putShort("MaxRemainingFuel", (short)maxRemainingFuel);
 	}
 }
