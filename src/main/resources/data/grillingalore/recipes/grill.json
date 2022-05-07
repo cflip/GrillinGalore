@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+	"BBB",
+	"OFO"
+  ],
+  "key": {
+	"B": {
+	  "item": "minecraft:iron_bars"
+	},
+	"O": {
+	  "item": "minecraft:iron_block"
+	},
+	"F": {
+	  "item": "minecraft:furnace"
+	}
+  },
+  "result": {
+	"item": "grillingalore:grill"
+  }
+}
