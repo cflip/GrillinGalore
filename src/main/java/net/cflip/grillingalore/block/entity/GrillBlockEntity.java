@@ -75,7 +75,7 @@ public class GrillBlockEntity extends LockableContainerBlockEntity {
 
 	public static void tick(World world, BlockPos pos, BlockState state, GrillBlockEntity grill) {
 		boolean isCooking = false;
-		for (int i = 0; i < grill.inventory.size(); i++) {
+		for (int i = 0; i < GRILL_SIZE; i++) {
 			ItemStack itemStack = grill.inventory.get(i);
 			if (itemStack.isEmpty() || getRecipeFor(world, itemStack).isEmpty())
 				continue;
@@ -130,8 +130,8 @@ public class GrillBlockEntity extends LockableContainerBlockEntity {
 			stack.setCount(getMaxCountPerStack());
 
 		boolean isSameItem = stack.isItemEqualIgnoreDamage(oldStack) && ItemStack.areNbtEqual(stack, oldStack);
-		Optional<SmokingRecipe> optionalRecipe = world.getRecipeManager().getFirstMatch(RecipeType.SMOKING, new SimpleInventory(stack), world);
-		if (slot != GRILL_SIZE + 1 && optionalRecipe.isPresent()) {
+		Optional<SmokingRecipe> optionalRecipe = getRecipeFor(world, stack);
+		if (slot != GRILL_SIZE && optionalRecipe.isPresent()) {
 			SmokingRecipe recipe = optionalRecipe.get();
 			cookingTimes[slot] = 0;
 			totalCookingTimes[slot] = recipe.getCookTime();
