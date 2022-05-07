@@ -11,9 +11,11 @@ import net.minecraft.util.registry.Registry;
 public class ModItems {
 	public static final Item ONION = new Item(new FabricItemSettings().group(ItemGroup.FOOD).food(new FoodComponent.Builder().hunger(4).saturationModifier(0.2f).build()));
 	public static final Item ONION_RINGS = new Item(new FabricItemSettings().group(ItemGroup.FOOD).food(new FoodComponent.Builder().hunger(1).saturationModifier(0.2f).build()));
+	public static final Item GRILLED_ONION_RINGS = new Item(new FabricItemSettings().group(ItemGroup.FOOD).food(new FoodComponent.Builder().hunger(2).saturationModifier(0.6f).build()));
 
 	public static void register() {
 		Registry.register(Registry.ITEM, new Identifier(GrillinGalore.MODID, "onion"), ONION);
 		Registry.register(Registry.ITEM, new Identifier(GrillinGalore.MODID, "onion_rings"), ONION_RINGS);
+		Registry.register(Registry.ITEM, new Identifier(GrillinGalore.MODID, "grilled_onion_rings"), GRILLED_ONION_RINGS);
 	}
 }
