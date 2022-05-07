@@ -1,5 +1,6 @@
 package net.cflip.grillingalore.block.entity;
 
+import net.cflip.grillingalore.block.GrillBlock;
 import net.cflip.grillingalore.registry.ModBlockEntities;
 import net.cflip.grillingalore.screen.GrillScreenHandler;
 import net.minecraft.block.BlockState;
@@ -57,13 +58,13 @@ public class GrillBlockEntity extends LockableContainerBlockEntity {
 	}
 
 	public static void tick(World world, BlockPos pos, BlockState state, GrillBlockEntity grill) {
-		boolean shouldMarkDirty = false;
+		boolean isCooking = false;
 		for (int i = 0; i < grill.inventory.size(); i++) {
 			ItemStack itemStack = grill.inventory.get(i);
 			if (itemStack.isEmpty() || getRecipeFor(world, itemStack).isEmpty())
 				continue;
 
-			shouldMarkDirty = true;
+			isCooking = true;
 			grill.cookingTimes[i]++;
 			if (grill.cookingTimes[i] < grill.totalCookingTimes[i])
 				continue;
@@ -74,8 +75,10 @@ public class GrillBlockEntity extends LockableContainerBlockEntity {
 			grill.totalCookingTimes[i] = -1;
 		}
 
-		if (shouldMarkDirty)
+		if (isCooking)
 			grill.markDirty();
+
+		world.setBlockState(pos, state.with(GrillBlock.LIT, isCooking));
 	}
 
 	@Override

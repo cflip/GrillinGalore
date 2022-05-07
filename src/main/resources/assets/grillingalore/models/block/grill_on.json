@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "grillingalore:block/grill_front",
+    "north": "grillingalore:block/grill_front",
+    "south": "grillingalore:block/grill_side",
+    "east": "grillingalore:block/grill_side",
+    "west": "grillingalore:block/grill_front",
+    "up": "grillingalore:block/grill_top_on",
+    "down": "grillingalore:block/grill_bottom"
+  }
+}

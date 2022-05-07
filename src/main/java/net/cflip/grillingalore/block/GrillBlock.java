@@ -2,6 +2,7 @@ package net.cflip.grillingalore.block;
 
 import net.cflip.grillingalore.block.entity.GrillBlockEntity;
 import net.cflip.grillingalore.registry.ModBlockEntities;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
@@ -13,16 +14,25 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.state.StateManager;
+import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class GrillBlock extends BlockWithEntity {
+	public static final BooleanProperty LIT = Properties.LIT;
+
 	public GrillBlock(Settings settings) {
 		super(settings);
+		setDefaultState(stateManager.getDefaultState().with(LIT, false));
 	}
 
 	@Override
@@ -32,7 +42,7 @@ public class GrillBlock extends BlockWithEntity {
 
 	@Override
 	public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
-		if (!entity.isFireImmune() && entity instanceof LivingEntity && !EnchantmentHelper.hasFrostWalker((LivingEntity)entity)) {
+		if (state.get(LIT) && !entity.isFireImmune() && entity instanceof LivingEntity && !EnchantmentHelper.hasFrostWalker((LivingEntity)entity)) {
 			entity.damage(DamageSource.HOT_FLOOR, 1.0f);
 		}
 		super.onSteppedOn(world, pos, state, entity);
@@ -55,6 +65,19 @@ public class GrillBlock extends BlockWithEntity {
 			return GrillBlock.checkType(type, ModBlockEntities.GRILL, GrillBlockEntity::tick);
 		}
 		return super.getTicker(world, state, type);
+	}
+
+	@Override
+	public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+		if (!state.get(LIT))
+			return;
+
+		world.addParticle(ParticleTypes.SMOKE, (double)pos.getX() + 0.5, (double)pos.getY() + 1, (double)pos.getZ() + 0.5, 0, 0, 0);
+	}
+
+	@Override
+	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+		builder.add(LIT);
 	}
 
 	@Override

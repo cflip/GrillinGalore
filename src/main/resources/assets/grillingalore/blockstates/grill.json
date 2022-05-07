@@ -1,7 +1,10 @@
 {
   "variants": {
-	"": {
+	"lit=false": {
 	  "model": "grillingalore:block/grill"
+	},
+	"lit=true": {
+	  "model": "grillingalore:block/grill_on"
 	}
   }
 }
