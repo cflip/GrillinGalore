@@ -51,5 +51,7 @@ public class GrillScreen extends HandledScreen<GrillScreenHandler> {
 		for (int s = 0; s < 8; s++) {
 			drawSlotProgress(matrices, handler.getSlot(s), s);
 		}
+		int fuelProgress = handler.getFuelProgress();
+		drawTexture(matrices, i + 14, j + 45 + 13 - fuelProgress, 176, 13 - fuelProgress, 14, fuelProgress);
 	}
 }

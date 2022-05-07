@@ -25,17 +25,23 @@ import net.minecraft.world.World;
 import java.util.Optional;
 
 public class GrillBlockEntity extends LockableContainerBlockEntity {
-	private static final int INVENTORY_SIZE = 8;
-	private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(INVENTORY_SIZE, ItemStack.EMPTY);
-	private final int[] cookingTimes = new int[INVENTORY_SIZE];
-	private final int[] totalCookingTimes = new int[INVENTORY_SIZE];
+	private static final int GRILL_SIZE = 8;
+	private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(GRILL_SIZE + 1, ItemStack.EMPTY);
+
+	private final int[] cookingTimes = new int[GRILL_SIZE];
+	private final int[] totalCookingTimes = new int[GRILL_SIZE];
+	private int remainingFuel;
+	private int maxRemainingFuel;
 
 	private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
 		@Override
 		public int get(int index) {
-			if (inventory.get(index).isEmpty() || totalCookingTimes[index] <= 0)
-				return 0;
-			return (int) (((float) cookingTimes[index] / (float) totalCookingTimes[index]) * 16.f);
+			if (index < 8) {
+				if (inventory.get(index).isEmpty() || totalCookingTimes[index] <= 0)
+					return 0;
+				return (int) (((float) cookingTimes[index] / (float) totalCookingTimes[index]) * 16.f);
+			}
+			return remainingFuel * 13 / maxRemainingFuel;
 		}
 
 		@Override
@@ -45,12 +51,14 @@ public class GrillBlockEntity extends LockableContainerBlockEntity {
 
 		@Override
 		public int size() {
-			return INVENTORY_SIZE;
+			return GRILL_SIZE + 1;
 		}
 	};
 
 	public GrillBlockEntity(BlockPos pos, BlockState state) {
 		super(ModBlockEntities.GRILL, pos, state);
+		remainingFuel = 0;
+		maxRemainingFuel = 500;
 	}
 
 	public static Optional<SmokingRecipe> getRecipeFor(World world, ItemStack item) {
@@ -64,7 +72,17 @@ public class GrillBlockEntity extends LockableContainerBlockEntity {
 			if (itemStack.isEmpty() || getRecipeFor(world, itemStack).isEmpty())
 				continue;
 
+			if (grill.remainingFuel <= 0) {
+				if (!grill.inventory.get(8).isEmpty()) {
+					grill.inventory.get(8).decrement(1);
+					grill.remainingFuel = grill.maxRemainingFuel;
+				} else {
+					continue;
+				}
+			}
+
 			isCooking = true;
+			grill.remainingFuel--;
 			grill.cookingTimes[i]++;
 			if (grill.cookingTimes[i] < grill.totalCookingTimes[i])
 				continue;
@@ -98,16 +116,25 @@ public class GrillBlockEntity extends LockableContainerBlockEntity {
 
 	@Override
 	public void setStack(int slot, ItemStack stack) {
+		ItemStack oldStack = inventory.get(slot);
 		inventory.set(slot, stack);
 		if (stack.getCount() > getMaxCountPerStack())
 			stack.setCount(getMaxCountPerStack());
 
+		boolean isSameItem = stack.isItemEqualIgnoreDamage(oldStack) && ItemStack.areNbtEqual(stack, oldStack);
 		Optional<SmokingRecipe> optionalRecipe = world.getRecipeManager().getFirstMatch(RecipeType.SMOKING, new SimpleInventory(stack), world);
-		optionalRecipe.ifPresent(recipe -> {
+		if (slot != GRILL_SIZE + 1 && optionalRecipe.isPresent()) {
+			SmokingRecipe recipe = optionalRecipe.get();
 			cookingTimes[slot] = 0;
 			totalCookingTimes[slot] = recipe.getCookTime();
 			markDirty();
-		});
+		}
+
+		if (slot == 8 && !stack.isEmpty() && !isSameItem) {
+			stack.decrement(1);
+			remainingFuel = maxRemainingFuel;
+			markDirty();
+		}
 	}
 
 	@Override
@@ -123,11 +150,6 @@ public class GrillBlockEntity extends LockableContainerBlockEntity {
 	@Override
 	public int size() {
 		return inventory.size();
-	}
-
-	@Override
-	public int getMaxCountPerStack() {
-		return 1;
 	}
 
 	@Override
@@ -164,6 +186,7 @@ public class GrillBlockEntity extends LockableContainerBlockEntity {
 			tempArray = nbt.getIntArray("TotalCookingTimes");
 			System.arraycopy(tempArray, 0, totalCookingTimes, 0, Math.min(totalCookingTimes.length, tempArray.length));
 		}
+		remainingFuel = nbt.getShort("RemainingFuel");
 	}
 
 	@Override
@@ -172,5 +195,6 @@ public class GrillBlockEntity extends LockableContainerBlockEntity {
 		Inventories.writeNbt(nbt, inventory);
 		nbt.putIntArray("CookingTimes", cookingTimes);
 		nbt.putIntArray("TotalCookingTimes", totalCookingTimes);
+		nbt.putShort("RemainingFuel", (short)remainingFuel);
 	}
 }

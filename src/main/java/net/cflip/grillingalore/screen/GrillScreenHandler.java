@@ -15,8 +15,19 @@ public class GrillScreenHandler extends ScreenHandler {
 	private final Inventory inventory;
 	private final PropertyDelegate propertyDelegate;
 
+	private static class GrillSlot extends Slot {
+		public GrillSlot(Inventory inventory, int index, int x, int y) {
+			super(inventory, index, x, y);
+		}
+
+		@Override
+		public int getMaxItemCount() {
+			return 1;
+		}
+	}
+
 	public GrillScreenHandler(int syncId, PlayerInventory playerInventory) {
-		this(syncId, playerInventory, new SimpleInventory(8), new ArrayPropertyDelegate(8));
+		this(syncId, playerInventory, new SimpleInventory(9), new ArrayPropertyDelegate(9));
 	}
 
 	public GrillScreenHandler(int syncId, PlayerInventory playerInventory, Inventory grillInventory, PropertyDelegate propertyDelegate) {
@@ -30,9 +41,10 @@ public class GrillScreenHandler extends ScreenHandler {
 		// Grill inventory slots
 		for (i = 0; i < 2; i++) {
 			for (j = 0; j < 4; j++) {
-				addSlot(new Slot(grillInventory, j + i * 4, 53 + j * 18, 26 + i * 18));
+				addSlot(new GrillSlot(grillInventory, j + i * 4, 53 + j * 18, 26 + i * 18));
 			}
 		}
+		addSlot(new Slot(grillInventory, 8, 14, 26));
 
 		// Player inventory slots
 		for (i = 0; i < 3; ++i) {
@@ -47,6 +59,10 @@ public class GrillScreenHandler extends ScreenHandler {
 
 	public int getCookProgress(int index) {
 		return propertyDelegate.get(index);
+	}
+
+	public int getFuelProgress() {
+		return propertyDelegate.get(8);
 	}
 
 	@Override
