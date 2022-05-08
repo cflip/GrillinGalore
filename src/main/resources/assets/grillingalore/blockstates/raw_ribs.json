@@ -1,0 +1,28 @@
+{
+    "variants": {
+        "bites=0": {
+            "model": "grillingalore:block/ribs/raw_ribs"
+        },
+        "bites=1": {
+            "model": "grillingalore:block/ribs/raw_ribs_1"
+        },
+        "bites=2": {
+            "model": "grillingalore:block/ribs/raw_ribs_2"
+        },
+        "bites=3": {
+            "model": "grillingalore:block/ribs/raw_ribs_3"
+        },
+        "bites=4": {
+            "model": "grillingalore:block/ribs/raw_ribs_4"
+        },
+        "bites=5": {
+            "model": "grillingalore:block/ribs/raw_ribs_5"
+        },
+        "bites=6": {
+            "model": "grillingalore:block/ribs/raw_ribs_6"
+        },
+        "bites=7": {
+            "model": "grillingalore:block/ribs/raw_ribs_7"
+        }
+    }
+}

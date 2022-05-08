@@ -1,0 +1,6 @@
+{
+  "parent": "grillingalore:block/ribs/template_ribs",
+  "textures": {
+    "ribs": "grillingalore:block/ribs"
+  }
+}

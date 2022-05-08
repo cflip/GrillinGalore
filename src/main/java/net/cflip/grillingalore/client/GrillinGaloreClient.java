@@ -18,5 +18,7 @@ public class GrillinGaloreClient implements ClientModInitializer {
 		ScreenRegistry.register(ModScreens.GRILL, GrillScreen::new);
 		ScreenRegistry.register(ModScreens.CHARCOAL_GRILL, CharcoalGrillScreen::new);
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.CHARCOAL_GRILL, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.RAW_RIBS, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.RIBS, RenderLayer.getCutout());
 	}
 }

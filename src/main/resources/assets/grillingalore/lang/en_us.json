@@ -1,9 +1,12 @@
 {
   "block.grillingalore.grill": "Grill",
   "block.grillingalore.charcoal_grill": "Charcoal Grill",
+  "block.grillingalore.raw_ribs": "Raw Ribs",
+  "block.grillingalore.ribs": "Ribs",
   "item.grillingalore.onion": "Onion",
   "item.grillingalore.onion_rings": "Onion Rings",
   "item.grillingalore.grilled_onion_rings": "Grilled Onion Rings",
   "container.grill": "Grill",
-  "container.charcoal_grill": "Charcoal Grill"
+  "container.charcoal_grill": "Charcoal Grill",
+  "tooltip.ribs.bites_left": "%d left"
 }
