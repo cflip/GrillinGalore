@@ -6,8 +6,10 @@ import net.minecraft.block.ShapeContext;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.ai.pathing.NavigationType;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.FoodComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -26,7 +28,6 @@ import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import net.minecraft.world.event.GameEvent;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -44,13 +45,11 @@ public class RibsBlock extends Block {
 			Block.createCuboidShape(4, 0, 14, 12, 4, 16)
 	};
 
-	private final int hunger;
-	private final float saturation;
+	private final FoodComponent foodComponent;
 
-	public RibsBlock(Settings settings, int hunger, float saturation) {
+	public RibsBlock(Settings settings, FoodComponent foodComponent) {
 		super(settings);
-		this.hunger = hunger;
-		this.saturation = saturation;
+		this.foodComponent = foodComponent;
 		setDefaultState(getStateManager().getDefaultState().with(BITES, 0));
 	}
 
@@ -63,7 +62,14 @@ public class RibsBlock extends Block {
 	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
 		if (!player.canConsume(false))
 			return ActionResult.PASS;
-		player.getHungerManager().add(hunger, saturation);
+
+		player.getHungerManager().add(foodComponent.getHunger(), foodComponent.getSaturationModifier());
+		foodComponent.getStatusEffects().forEach(statusEffectAndChance -> {
+			if (world.isClient || statusEffectAndChance.getFirst() == null || !(world.random.nextFloat() < statusEffectAndChance.getSecond()))
+				return;
+			player.addStatusEffect(new StatusEffectInstance(statusEffectAndChance.getFirst()));
+		});
+
 		int i = state.get(BITES);
 		world.emitGameEvent(player, GameEvent.EAT, pos);
 		if (i < MAX_BITES) {
@@ -100,7 +106,7 @@ public class RibsBlock extends Block {
 	}
 
 	@Override
-	public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
+	public void appendTooltip(ItemStack stack, BlockView world, List<Text> tooltip, TooltipContext options) {
 		super.appendTooltip(stack, world, tooltip, options);
 		NbtCompound nbt = stack.getSubNbt(BlockItem.BLOCK_STATE_TAG_KEY);
 		if (nbt != null && nbt.contains(BITES.getName(), NbtElement.INT_TYPE)) {
