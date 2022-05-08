@@ -26,11 +26,11 @@ public class ModBlocks {
 	public static void register() {
 		registerBlockWithItem(GRILL, "grill", new FabricItemSettings().group(ItemGroup.DECORATIONS));
 		registerBlockWithItem(CHARCOAL_GRILL, "charcoal_grill", new FabricItemSettings().group(ItemGroup.DECORATIONS));
-		registerBlockWithItem(RAW_RIBS, "raw_ribs", new FabricItemSettings().group(ItemGroup.FOOD).maxCount(1));
-		registerBlockWithItem(RIBS, "ribs", new FabricItemSettings().group(ItemGroup.FOOD).maxCount(1));
+		registerBlockWithItem(RAW_RIBS, "raw_ribs", new FabricItemSettings().group(ItemGroup.FOOD));
+		registerBlockWithItem(RIBS, "ribs", new FabricItemSettings().group(ItemGroup.FOOD));
 	}
 
-	private static void registerBlockWithItem(Block block, String identifier, FabricItemSettings itemSettings)  {
+	private static void registerBlockWithItem(Block block, String identifier, FabricItemSettings itemSettings) {
 		Registry.register(Registry.BLOCK, new Identifier(GrillinGalore.MODID, identifier), block);
 		Registry.register(Registry.ITEM, new Identifier(GrillinGalore.MODID, identifier), new BlockItem(block, itemSettings));
 	}
