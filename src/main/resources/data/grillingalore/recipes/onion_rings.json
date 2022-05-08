@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "grillingalore:onion"
+        }
+    ],
+    "result": {
+        "item": "grillingalore:onion_rings",
+        "count": 4
+    }
+}
