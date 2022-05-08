@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+	"BBB",
+	"I I"
+  ],
+  "key": {
+	"B": {
+	  "item": "minecraft:iron_bars"
+	},
+	"I": {
+	  "item": "minecraft:iron_ingot"
+	}
+  },
+  "result": {
+	"item": "grillingalore:charcoal_grill"
+  }
+}
