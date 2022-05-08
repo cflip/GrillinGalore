@@ -16,7 +16,7 @@ public abstract class AbstractGrillScreenHandler extends ScreenHandler {
 	private final PropertyDelegate propertyDelegate;
 	protected final int numberOfGrillSlots;
 
-	private static class GrillSlot extends Slot {
+	protected static class GrillSlot extends Slot {
 		public GrillSlot(Inventory inventory, int index, int x, int y) {
 			super(inventory, index, x, y);
 		}
@@ -40,13 +40,7 @@ public abstract class AbstractGrillScreenHandler extends ScreenHandler {
 		addProperties(propertyDelegate);
 		grillInventory.onOpen(playerInventory.player);
 
-		// Grill inventory slots
-		for (i = 0; i < 2; i++) {
-			for (j = 0; j < 4; j++) {
-				addSlot(new GrillSlot(grillInventory, j + i * 4, 53 + j * 18, 26 + i * 18));
-			}
-		}
-		addSlot(new Slot(grillInventory, 8, 14, 26));
+		addSlots(grillInventory);
 
 		// Player inventory slots
 		for (i = 0; i < 3; ++i) {
@@ -59,12 +53,18 @@ public abstract class AbstractGrillScreenHandler extends ScreenHandler {
 		}
 	}
 
+	protected abstract void addSlots(Inventory inventory);
+
+	public int getNumberOfGrillSlots() {
+		return numberOfGrillSlots;
+	}
+
 	public int getCookProgress(int index) {
 		return propertyDelegate.get(index);
 	}
 
 	public int getFuelProgress() {
-		return propertyDelegate.get(8);
+		return propertyDelegate.get(numberOfGrillSlots);
 	}
 
 	@Override

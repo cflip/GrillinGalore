@@ -48,7 +48,7 @@ public abstract class AbstractGrillScreen<T extends AbstractGrillScreenHandler> 
 		int i = (width - backgroundWidth) / 2;
 		int j = (height - backgroundHeight) / 2;
 		drawTexture(matrices, i, j, 0, 0, backgroundWidth, backgroundHeight);
-		for (int s = 0; s < 8; s++) {
+		for (int s = 0; s < handler.getNumberOfGrillSlots(); s++) {
 			drawSlotProgress(matrices, handler.getSlot(s), s);
 		}
 		int fuelProgress = handler.getFuelProgress();

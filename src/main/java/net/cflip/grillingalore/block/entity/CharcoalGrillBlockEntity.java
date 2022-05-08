@@ -11,7 +11,7 @@ import net.minecraft.util.math.BlockPos;
 
 public class CharcoalGrillBlockEntity extends AbstractGrillBlockEntity {
 	public CharcoalGrillBlockEntity(BlockPos pos, BlockState state) {
-		super(ModBlockEntities.CHARCOAL_GRILL, pos, state, 8);
+		super(ModBlockEntities.CHARCOAL_GRILL, pos, state, 4);
 	}
 
 	@Override

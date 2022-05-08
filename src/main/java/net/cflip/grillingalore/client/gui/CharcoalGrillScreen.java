@@ -7,7 +7,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public class CharcoalGrillScreen extends AbstractGrillScreen<CharcoalGrillScreenHandler> {
-	private static final Identifier TEXTURE = new Identifier(GrillinGalore.MODID, "textures/gui/container/grill.png");
+	private static final Identifier TEXTURE = new Identifier(GrillinGalore.MODID, "textures/gui/container/charcoal_grill.png");
 
 	public CharcoalGrillScreen(CharcoalGrillScreenHandler handler, PlayerInventory inventory, Text title) {
 		super(handler, inventory, title, TEXTURE);
