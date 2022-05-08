@@ -93,7 +93,7 @@ public class RibsBlock extends Block {
 
 	@Override
 	public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-		if (!world.isClient() && world.getGameRules().getBoolean(GameRules.DO_TILE_DROPS)) {
+		if (!world.isClient() && !player.isCreative() && world.getGameRules().getBoolean(GameRules.DO_TILE_DROPS)) {
 			ItemStack itemStack = new ItemStack(this);
 			NbtCompound nbt = new NbtCompound();
 			nbt.putInt(BITES.getName(), state.get(BITES));
