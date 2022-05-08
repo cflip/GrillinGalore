@@ -88,7 +88,7 @@ public abstract class AbstractGrillBlockEntity extends LockableContainerBlockEnt
 
 	public static void tick(World world, BlockPos pos, BlockState state, AbstractGrillBlockEntity grill) {
 		boolean oldCookingState = grill.isBurning();
-		boolean needsUpdate = false;
+		boolean didCook = false;
 
 		if (grill.remainingFuel <= 0 && !grill.inventory.get(grill.numberOfGrillSlots).isEmpty()) {
 			ItemStack fuelStack = grill.inventory.get(grill.numberOfGrillSlots);
@@ -104,7 +104,7 @@ public abstract class AbstractGrillBlockEntity extends LockableContainerBlockEnt
 			if (grill.remainingFuel <= 0 || itemStack.isEmpty() || getRecipeFor(world, itemStack).isEmpty())
 				continue;
 
-			needsUpdate = true;
+			didCook = true;
 			grill.remainingFuel--;
 			grill.cookingTimes[i]++;
 			if (grill.cookingTimes[i] < grill.totalCookingTimes[i])
@@ -117,6 +117,7 @@ public abstract class AbstractGrillBlockEntity extends LockableContainerBlockEnt
 		}
 
 		if (grill.remainingFuel > 0 && world.getBlockState(pos.up()).isOf(ModBlocks.RAW_RIBS)) {
+			didCook = true;
 			grill.remainingFuel--;
 			grill.ribsCookProgress++;
 			if (grill.ribsCookProgress >= RIBS_COOKING_TIME) {
@@ -129,12 +130,15 @@ public abstract class AbstractGrillBlockEntity extends LockableContainerBlockEnt
 			grill.ribsCookProgress = 0;
 		}
 
+		if (!didCook && grill.isBurning())
+			grill.remainingFuel--;
+
 		if (oldCookingState != grill.isBurning()) {
-			needsUpdate = true;
+			didCook = true;
 			world.setBlockState(pos, state.with(AbstractGrillBlock.LIT, grill.isBurning()));
 		}
 
-		if (needsUpdate)
+		if (didCook)
 			AbstractGrillBlockEntity.markDirty(world, pos, state);
 	}
 
