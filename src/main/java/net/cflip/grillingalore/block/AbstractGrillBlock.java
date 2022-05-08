@@ -1,5 +1,6 @@
 package net.cflip.grillingalore.block;
 
+import net.cflip.grillingalore.registry.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -9,6 +10,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
@@ -17,6 +19,8 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public abstract class AbstractGrillBlock extends BlockWithEntity {
 	public static final BooleanProperty LIT = Properties.LIT;
@@ -48,6 +52,15 @@ public abstract class AbstractGrillBlock extends BlockWithEntity {
 			return ActionResult.CONSUME;
 		}
 		return ActionResult.SUCCESS;
+	}
+
+	@Override
+	public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+		if (state.get(LIT) && world.getBlockState(pos.up()).isOf(ModBlocks.RAW_RIBS)) {
+			world.addParticle(ParticleTypes.SMOKE, pos.getX() + random.nextFloat(), pos.getY() + 1.1f, pos.getZ() + random.nextFloat(), 0f, 0f, 0f);
+			world.addParticle(ParticleTypes.SMALL_FLAME, pos.getX() + random.nextFloat(), pos.getY() + 1.1f, pos.getZ() + random.nextFloat(), 0f, 0f, 0f);
+			world.addParticle(ParticleTypes.LAVA, pos.getX() + random.nextFloat(), pos.getY() + 1.1f, pos.getZ() + random.nextFloat(), 0f, 0f, 0f);
+		}
 	}
 
 	@Override

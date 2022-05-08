@@ -26,6 +26,7 @@ public class GrillBlock extends AbstractGrillBlock {
 
 	@Override
 	public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+		super.randomDisplayTick(state, world, pos, random);
 		if (!state.get(LIT))
 			return;
 
