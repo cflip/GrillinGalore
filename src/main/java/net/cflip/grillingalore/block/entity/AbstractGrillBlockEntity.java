@@ -1,6 +1,8 @@
 package net.cflip.grillingalore.block.entity;
 
 import net.cflip.grillingalore.block.AbstractGrillBlock;
+import net.cflip.grillingalore.block.RibsBlock;
+import net.cflip.grillingalore.registry.ModBlocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
@@ -24,6 +26,8 @@ import java.util.Map;
 import java.util.Optional;
 
 public abstract class AbstractGrillBlockEntity extends LockableContainerBlockEntity {
+	private static final int RIBS_COOKING_TIME = 200;
+
 	protected final int numberOfGrillSlots;
 	protected final DefaultedList<ItemStack> inventory;
 	protected final Map<Item, Integer> fuelTimeMap;
@@ -32,6 +36,8 @@ public abstract class AbstractGrillBlockEntity extends LockableContainerBlockEnt
 	protected final int[] totalCookingTimes;
 	protected int remainingFuel;
 	protected int maxRemainingFuel;
+
+	protected int ribsCookProgress;
 
 	protected final PropertyDelegate propertyDelegate = new PropertyDelegate() {
 		@Override
@@ -108,6 +114,19 @@ public abstract class AbstractGrillBlockEntity extends LockableContainerBlockEnt
 			ItemStack cookedItem = getRecipeFor(world, itemStack).map(recipe -> recipe.craft(tempInventory)).orElse(itemStack);
 			grill.inventory.set(i, cookedItem);
 			grill.totalCookingTimes[i] = -1;
+		}
+
+		if (grill.remainingFuel > 0 && world.getBlockState(pos.up()).isOf(ModBlocks.RAW_RIBS)) {
+			grill.remainingFuel--;
+			grill.ribsCookProgress++;
+			if (grill.ribsCookProgress >= RIBS_COOKING_TIME) {
+				BlockState oldRibsState = world.getBlockState(pos.up());
+				BlockState cookedRibsState = ModBlocks.RIBS.getDefaultState().with(RibsBlock.BITES, oldRibsState.get(RibsBlock.BITES));
+				world.setBlockState(pos.up(), cookedRibsState);
+				grill.ribsCookProgress = 0;
+			}
+		} else {
+			grill.ribsCookProgress = 0;
 		}
 
 		if (oldCookingState != grill.isBurning()) {
