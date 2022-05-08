@@ -1,0 +1,8 @@
+{
+  "parent": "grillingalore:block/template_charcoal_grill",
+  "textures": {
+    "side": "grillingalore:block/charcoal_grill",
+    "top": "grillingalore:block/charcoal_grill_top_on",
+    "bottom": "grillingalore:block/grill_bottom"
+  }
+}

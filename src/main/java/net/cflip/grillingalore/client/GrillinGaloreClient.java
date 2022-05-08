@@ -1,5 +1,6 @@
 package net.cflip.grillingalore.client;
 
+import net.cflip.grillingalore.client.gui.CharcoalGrillScreen;
 import net.cflip.grillingalore.client.gui.GrillScreen;
 import net.cflip.grillingalore.registry.ModBlocks;
 import net.cflip.grillingalore.registry.ModScreens;
@@ -15,6 +16,7 @@ public class GrillinGaloreClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		ScreenRegistry.register(ModScreens.GRILL, GrillScreen::new);
+		ScreenRegistry.register(ModScreens.CHARCOAL_GRILL, CharcoalGrillScreen::new);
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.CHARCOAL_GRILL, RenderLayer.getCutout());
 	}
 }
