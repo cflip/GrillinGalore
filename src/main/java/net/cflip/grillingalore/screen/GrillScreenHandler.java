@@ -22,6 +22,6 @@ public class GrillScreenHandler extends AbstractGrillScreenHandler {
 				addSlot(new GrillSlot(inventory, j + i * 4, 53 + j * 18, 26 + i * 18));
 			}
 		}
-		addSlot(new Slot(inventory, 8, 14, 26));
+		addSlot(new GrillFuelSlot(inventory, 8, 14, 26));
 	}
 }

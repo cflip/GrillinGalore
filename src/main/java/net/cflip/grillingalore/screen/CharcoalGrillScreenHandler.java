@@ -21,6 +21,6 @@ public class CharcoalGrillScreenHandler extends AbstractGrillScreenHandler {
 		addSlot(new GrillSlot(inventory, 1, 89, 26));
 		addSlot(new GrillSlot(inventory, 2, 71, 44));
 		addSlot(new GrillSlot(inventory, 3, 89, 44));
-		addSlot(new Slot(inventory, 4, 14, 26));
+		addSlot(new GrillFuelSlot(inventory, 4, 14, 26));
 	}
 }

@@ -1,5 +1,6 @@
 package net.cflip.grillingalore.screen;
 
+import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
@@ -24,6 +25,17 @@ public abstract class AbstractGrillScreenHandler extends ScreenHandler {
 		@Override
 		public int getMaxItemCount() {
 			return 1;
+		}
+	}
+
+	protected static class GrillFuelSlot extends Slot {
+		public GrillFuelSlot(Inventory inventory, int index, int x, int y) {
+			super(inventory, index, x, y);
+		}
+
+		@Override
+		public boolean canInsert(ItemStack stack) {
+			return AbstractFurnaceBlockEntity.canUseAsFuel(stack);
 		}
 	}
 
@@ -143,7 +155,7 @@ public abstract class AbstractGrillScreenHandler extends ScreenHandler {
 				if (!insertItem(originalStack, inventory.size(), slots.size(), true)) {
 					return ItemStack.EMPTY;
 				}
-			} else if (!slots.get(numberOfGrillSlots).hasStack()) {
+			} else if (!slots.get(numberOfGrillSlots).hasStack() && slots.get(numberOfGrillSlots).canInsert(originalStack)) {
 				// Transfer from the inventory into the fuel slot
 				if (!insertItem(originalStack, numberOfGrillSlots, numberOfGrillSlots + 1, false)) {
 					return ItemStack.EMPTY;
