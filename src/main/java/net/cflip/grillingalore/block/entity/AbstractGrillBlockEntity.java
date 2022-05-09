@@ -84,7 +84,8 @@ public abstract class AbstractGrillBlockEntity extends LockableContainerBlockEnt
 	protected boolean hasItemsToCook() {
 		boolean inventoryHasItems = false;
 		for (int i = 0; i < numberOfGrillSlots; i++) {
-			if (!inventory.get(i).isEmpty()) {
+			ItemStack stack = inventory.get(i);
+			if (!stack.isEmpty() && getRecipeFor(world, stack).isPresent()) {
 				inventoryHasItems = true;
 				break;
 			}
