@@ -56,11 +56,15 @@ public abstract class AbstractGrillBlock extends BlockWithEntity {
 
 	@Override
 	public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
-		if (state.get(LIT) && world.getBlockState(pos.up()).isOf(ModBlocks.RAW_RIBS)) {
-			world.addParticle(ParticleTypes.SMOKE, pos.getX() + random.nextFloat(), pos.getY() + 1.1f, pos.getZ() + random.nextFloat(), 0f, 0f, 0f);
+		if (!state.get(LIT))
+			return;
+
+		if (world.getBlockState(pos.up()).isOf(ModBlocks.RAW_RIBS)) {
 			world.addParticle(ParticleTypes.SMALL_FLAME, pos.getX() + random.nextFloat(), pos.getY() + 1.1f, pos.getZ() + random.nextFloat(), 0f, 0f, 0f);
 			world.addParticle(ParticleTypes.LAVA, pos.getX() + random.nextFloat(), pos.getY() + 1.1f, pos.getZ() + random.nextFloat(), 0f, 0f, 0f);
 		}
+
+		world.addParticle(ParticleTypes.SMOKE, pos.getX() + random.nextFloat(), pos.getY() + 1.1f, pos.getZ() + random.nextFloat(), 0f, 0f, 0f);
 	}
 
 	@Override
