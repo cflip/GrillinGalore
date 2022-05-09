@@ -9,9 +9,9 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class ModItems {
-	public static final Item ONION = new Item(new FabricItemSettings().group(ItemGroup.FOOD).food(new FoodComponent.Builder().hunger(4).saturationModifier(0.2f).build()));
-	public static final Item ONION_RINGS = new Item(new FabricItemSettings().group(ItemGroup.FOOD).food(new FoodComponent.Builder().hunger(1).saturationModifier(0.2f).build()));
-	public static final Item GRILLED_ONION_RINGS = new Item(new FabricItemSettings().group(ItemGroup.FOOD).food(new FoodComponent.Builder().hunger(2).saturationModifier(0.6f).build()));
+	public static final Item ONION = new Item(new FabricItemSettings().group(ItemGroup.FOOD).food(new FoodComponent.Builder().hunger(3).saturationModifier(0.2f).build()));
+	public static final Item ONION_RINGS = new Item(new FabricItemSettings().group(ItemGroup.FOOD).food(new FoodComponent.Builder().hunger(1).saturationModifier(0.2f).snack().build()));
+	public static final Item GRILLED_ONION_RINGS = new Item(new FabricItemSettings().group(ItemGroup.FOOD).food(new FoodComponent.Builder().hunger(1).saturationModifier(0.4f).snack().build()));
 	public static final Item RIB_SANDWICH = new Item(new FabricItemSettings().group(ItemGroup.FOOD).food(new FoodComponent.Builder().hunger(12).saturationModifier(0.8f).build()));
 
 	public static void register() {
