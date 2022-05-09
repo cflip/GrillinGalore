@@ -68,6 +68,70 @@ public abstract class AbstractGrillScreenHandler extends ScreenHandler {
 	}
 
 	@Override
+	protected boolean insertItem(ItemStack stack, int startIndex, int endIndex, boolean fromLast) {
+		// Since the implementation of this function in ScreenHandler doesn't check if the stack
+		// exceeds the maximum stack limit of the slot it is being transferred into, we need to
+		// override it in order to add this missing instruction and prevent the user from being
+		// able to shift-click more than one item into any of the grill slots.
+
+		ItemStack itemStack;
+		Slot slot;
+		boolean bl = false;
+		int i = startIndex;
+		if (fromLast) {
+			i = endIndex - 1;
+		}
+		if (stack.isStackable()) {
+			while (!stack.isEmpty() && (fromLast ? i >= startIndex : i < endIndex)) {
+				slot = this.slots.get(i);
+				itemStack = slot.getStack();
+				if (!itemStack.isEmpty() && stack.getCount() < slot.getMaxItemCount(stack) && ItemStack.canCombine(stack, itemStack)) {
+					int j = itemStack.getCount() + stack.getCount();
+					if (j <= stack.getMaxCount()) {
+						stack.setCount(0);
+						itemStack.setCount(j);
+						slot.markDirty();
+						bl = true;
+					} else if (itemStack.getCount() < stack.getMaxCount()) {
+						stack.decrement(stack.getMaxCount() - itemStack.getCount());
+						itemStack.setCount(stack.getMaxCount());
+						slot.markDirty();
+						bl = true;
+					}
+				}
+				if (fromLast) {
+					--i;
+					continue;
+				}
+				++i;
+			}
+		}
+		if (!stack.isEmpty()) {
+			i = fromLast ? endIndex - 1 : startIndex;
+			while (fromLast ? i >= startIndex : i < endIndex) {
+				slot = this.slots.get(i);
+				itemStack = slot.getStack();
+				if (itemStack.isEmpty() && slot.canInsert(stack)) {
+					if (stack.getCount() > slot.getMaxItemCount()) {
+						slot.setStack(stack.split(slot.getMaxItemCount()));
+					} else {
+						slot.setStack(stack.split(stack.getCount()));
+					}
+					slot.markDirty();
+					bl = true;
+					break;
+				}
+				if (fromLast) {
+					--i;
+					continue;
+				}
+				++i;
+			}
+		}
+		return bl;
+	}
+
+	@Override
 	public ItemStack transferSlot(PlayerEntity player, int index) {
 		ItemStack newStack = ItemStack.EMPTY;
 		Slot slot = slots.get(index);
@@ -75,11 +139,20 @@ public abstract class AbstractGrillScreenHandler extends ScreenHandler {
 			ItemStack originalStack = slot.getStack();
 			newStack = originalStack.copy();
 			if (index < inventory.size()) {
+				// Transfer from the grill into the inventory
 				if (!insertItem(originalStack, inventory.size(), slots.size(), true)) {
 					return ItemStack.EMPTY;
 				}
+			} else if (!slots.get(numberOfGrillSlots).hasStack()) {
+				// Transfer from the inventory into the fuel slot
+				if (!insertItem(originalStack, numberOfGrillSlots, numberOfGrillSlots + 1, false)) {
+					return ItemStack.EMPTY;
+				}
 			} else {
-				return ItemStack.EMPTY;
+				// Transfer from the inventory to a grill slot
+				if (!insertItem(originalStack, 0, numberOfGrillSlots, false)) {
+					return ItemStack.EMPTY;
+				}
 			}
 
 			if (originalStack.isEmpty()) {
