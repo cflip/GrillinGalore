@@ -77,8 +77,19 @@ public abstract class AbstractGrillBlockEntity extends LockableContainerBlockEnt
 		maxRemainingFuel = 500;
 	}
 
-	private boolean isBurning() {
+	protected boolean isBurning() {
 		return remainingFuel > 0;
+	}
+
+	protected boolean hasItemsToCook() {
+		boolean inventoryHasItems = false;
+		for (int i = 0; i < numberOfGrillSlots; i++) {
+			if (!inventory.get(i).isEmpty()) {
+				inventoryHasItems = true;
+				break;
+			}
+		}
+		return inventoryHasItems || world.getBlockState(pos.up()).isOf(ModBlocks.RAW_RIBS);
 	}
 
 	protected abstract Text getContainerName();
@@ -91,7 +102,7 @@ public abstract class AbstractGrillBlockEntity extends LockableContainerBlockEnt
 		boolean oldCookingState = grill.isBurning();
 		boolean didCook = false;
 
-		if (grill.remainingFuel <= 0 && !grill.inventory.get(grill.numberOfGrillSlots).isEmpty()) {
+		if (!grill.isBurning() && grill.hasItemsToCook()) {
 			ItemStack fuelStack = grill.inventory.get(grill.numberOfGrillSlots);
 			int fuelForItem = grill.fuelTimeMap.getOrDefault(fuelStack.getItem(), 0);
 			if (fuelForItem > 0) {
@@ -121,7 +132,7 @@ public abstract class AbstractGrillBlockEntity extends LockableContainerBlockEnt
 			}
 		}
 
-		if (grill.remainingFuel > 0 && world.getBlockState(pos.up()).isOf(ModBlocks.RAW_RIBS)) {
+		if (grill.isBurning() && world.getBlockState(pos.up()).isOf(ModBlocks.RAW_RIBS)) {
 			didCook = true;
 			grill.remainingFuel--;
 			grill.ribsCookProgress++;
