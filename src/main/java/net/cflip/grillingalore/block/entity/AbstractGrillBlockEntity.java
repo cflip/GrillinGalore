@@ -20,6 +20,7 @@ import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 import java.util.Map;
@@ -100,20 +101,24 @@ public abstract class AbstractGrillBlockEntity extends LockableContainerBlockEnt
 		}
 
 		for (int i = 0; i < grill.numberOfGrillSlots; i++) {
-			ItemStack itemStack = grill.inventory.get(i);
-			if (grill.remainingFuel <= 0 || itemStack.isEmpty() || getRecipeFor(world, itemStack).isEmpty())
-				continue;
+			if (grill.isBurning()) {
+				ItemStack itemStack = grill.inventory.get(i);
+				if (itemStack.isEmpty() || getRecipeFor(world, itemStack).isEmpty())
+					continue;
 
-			didCook = true;
-			grill.remainingFuel--;
-			grill.cookingTimes[i]++;
-			if (grill.cookingTimes[i] < grill.totalCookingTimes[i])
-				continue;
+				didCook = true;
+				grill.remainingFuel--;
+				grill.cookingTimes[i]++;
+				if (grill.cookingTimes[i] < grill.totalCookingTimes[i])
+					continue;
 
-			SimpleInventory tempInventory = new SimpleInventory(itemStack);
-			ItemStack cookedItem = getRecipeFor(world, itemStack).map(recipe -> recipe.craft(tempInventory)).orElse(itemStack);
-			grill.inventory.set(i, cookedItem);
-			grill.totalCookingTimes[i] = -1;
+				SimpleInventory tempInventory = new SimpleInventory(itemStack);
+				ItemStack cookedItem = getRecipeFor(world, itemStack).map(recipe -> recipe.craft(tempInventory)).orElse(itemStack);
+				grill.inventory.set(i, cookedItem);
+				grill.totalCookingTimes[i] = -1;
+			} else {
+				grill.cookingTimes[i] = MathHelper.clamp(grill.cookingTimes[i] - 2, 0, grill.totalCookingTimes[i]);
+			}
 		}
 
 		if (grill.remainingFuel > 0 && world.getBlockState(pos.up()).isOf(ModBlocks.RAW_RIBS)) {
