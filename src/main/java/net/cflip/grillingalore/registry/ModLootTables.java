@@ -4,6 +4,7 @@ import com.mojang.datafixers.util.Pair;
 import net.fabricmc.fabric.api.loot.v1.FabricLootPoolBuilder;
 import net.fabricmc.fabric.api.loot.v1.FabricLootSupplierBuilder;
 import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.loot.condition.EntityPropertiesLootCondition;
 import net.minecraft.loot.condition.RandomChanceLootCondition;
@@ -19,6 +20,7 @@ import java.util.List;
 
 public class ModLootTables {
 	private static final List<Pair<Identifier, Float>> lootTablesForRibDrops = new ArrayList<>();
+	private static final List<Identifier> lootTablesForOnionDrops = new ArrayList<>();
 
 	public static void addLootTables() {
 		lootTablesForRibDrops.add(Pair.of(EntityType.COW.getLootTableId(), 0.06f));
@@ -26,11 +28,21 @@ public class ModLootTables {
 		lootTablesForRibDrops.add(Pair.of(EntityType.PIG.getLootTableId(), 0.04f));
 		lootTablesForRibDrops.add(Pair.of(EntityType.HOGLIN.getLootTableId(), 0.18f));
 
-		LootTableLoadingCallback.EVENT.register((resourceManager, lootManager, id, table, setter) ->
-				lootTablesForRibDrops.forEach(lootTableAndChance -> {
-					if (lootTableAndChance.getFirst().equals(id))
-						addRibsToLootPool(table, lootTableAndChance.getSecond());
-				}));
+		lootTablesForOnionDrops.add(Blocks.GRASS.getLootTableId());
+		lootTablesForOnionDrops.add(Blocks.TALL_GRASS.getLootTableId());
+		lootTablesForOnionDrops.add(Blocks.FERN.getLootTableId());
+		lootTablesForOnionDrops.add(Blocks.LARGE_FERN.getLootTableId());
+
+		LootTableLoadingCallback.EVENT.register((resourceManager, lootManager, id, table, setter) -> {
+			lootTablesForRibDrops.forEach(lootTableAndChance -> {
+				if (lootTableAndChance.getFirst().equals(id))
+					addRibsToLootPool(table, lootTableAndChance.getSecond());
+			});
+			lootTablesForOnionDrops.forEach(lootTableAndChance -> {
+				if (lootTableAndChance.equals(id))
+					addOnionToLootPool(table);
+			});
+		});
 	}
 
 	private static void addRibsToLootPool(FabricLootSupplierBuilder table, float dropChance) {
@@ -48,5 +60,12 @@ public class ModLootTables {
 
 		table.pool(rawRibsLootPool);
 		table.pool(cookedRibsLootPool);
+	}
+
+	private static void addOnionToLootPool(FabricLootSupplierBuilder table) {
+		table.pool(FabricLootPoolBuilder.builder()
+				.rolls(ConstantLootNumberProvider.create(1))
+				.withCondition(RandomChanceLootCondition.builder(0.08f).build())
+				.with(ItemEntry.builder(ModItems.ONION)));
 	}
 }
