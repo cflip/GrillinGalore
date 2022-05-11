@@ -28,6 +28,7 @@ import java.util.Optional;
 
 public abstract class AbstractGrillBlockEntity extends LockableContainerBlockEntity {
 	private static final int RIBS_COOKING_TIME = 200;
+	private static final int FUEL_DEPLETION_COOLDOWN_TIME = 200;
 
 	protected final int numberOfGrillSlots;
 	protected final DefaultedList<ItemStack> inventory;
@@ -39,6 +40,7 @@ public abstract class AbstractGrillBlockEntity extends LockableContainerBlockEnt
 	protected int maxRemainingFuel;
 
 	protected int ribsCookProgress;
+	protected int timeUntilFuelStartsDepleting;
 
 	protected final PropertyDelegate propertyDelegate = new PropertyDelegate() {
 		@Override
@@ -75,6 +77,7 @@ public abstract class AbstractGrillBlockEntity extends LockableContainerBlockEnt
 		totalCookingTimes = new int[numberOfGrillSlots];
 		remainingFuel = 0;
 		maxRemainingFuel = 500;
+		timeUntilFuelStartsDepleting = 0;
 	}
 
 	protected boolean isBurning() {
@@ -147,7 +150,10 @@ public abstract class AbstractGrillBlockEntity extends LockableContainerBlockEnt
 			grill.ribsCookProgress = 0;
 		}
 
-		if (!didCook && grill.isBurning())
+		if (grill.isBurning() && grill.timeUntilFuelStartsDepleting > 0)
+			grill.timeUntilFuelStartsDepleting--;
+
+		if (!didCook && grill.timeUntilFuelStartsDepleting == 0 && grill.isBurning())
 			grill.remainingFuel--;
 
 		if (oldCookingState != grill.isBurning()) {
@@ -155,8 +161,10 @@ public abstract class AbstractGrillBlockEntity extends LockableContainerBlockEnt
 			world.setBlockState(pos, state.with(AbstractGrillBlock.LIT, grill.isBurning()));
 		}
 
-		if (didCook)
+		if (didCook) {
+			grill.timeUntilFuelStartsDepleting = FUEL_DEPLETION_COOLDOWN_TIME;
 			AbstractGrillBlockEntity.markDirty(world, pos, state);
+		}
 	}
 
 	@Override
@@ -230,6 +238,8 @@ public abstract class AbstractGrillBlockEntity extends LockableContainerBlockEnt
 		}
 		remainingFuel = nbt.getShort("RemainingFuel");
 		maxRemainingFuel = nbt.getShort("MaxRemainingFuel");
+		ribsCookProgress = nbt.getShort("RibsCookProgress");
+		timeUntilFuelStartsDepleting = nbt.getShort("TimeUntilFuelStartsDepleting");
 	}
 
 	@Override
@@ -240,5 +250,7 @@ public abstract class AbstractGrillBlockEntity extends LockableContainerBlockEnt
 		nbt.putIntArray("TotalCookingTimes", totalCookingTimes);
 		nbt.putShort("RemainingFuel", (short)remainingFuel);
 		nbt.putShort("MaxRemainingFuel", (short)maxRemainingFuel);
+		nbt.putShort("RibsCookProgress", (short)ribsCookProgress);
+		nbt.putShort("TimeUntilFuelStartsDepleting", (short)timeUntilFuelStartsDepleting);
 	}
 }
