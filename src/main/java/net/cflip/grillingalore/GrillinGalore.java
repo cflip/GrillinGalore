@@ -11,8 +11,8 @@ public class GrillinGalore implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		ModBlocks.register();
 		ModItems.register();
+		ModBlocks.register();
 		ModBlockEntities.register();
 		ModLootTables.addLootTables();
 	}
