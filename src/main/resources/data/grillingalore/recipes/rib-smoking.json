@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smoking",
+  "ingredient": {
+	"item": "grillingalore:raw_rib"
+  },
+  "result": "grillingalore:rib",
+  "experience": 0.4,
+  "cookingtime": 100
+}

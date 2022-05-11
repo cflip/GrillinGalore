@@ -11,10 +11,7 @@ import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.BlockItem;
-import net.minecraft.item.FoodComponent;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
@@ -23,8 +20,8 @@ import net.minecraft.util.registry.Registry;
 public class ModBlocks {
 	public static final Block GRILL = new GrillBlock(FabricBlockSettings.of(Material.METAL).strength(4.0f, 12.0f).requiresTool());
 	public static final Block CHARCOAL_GRILL = new CharcoalGrillBlock(FabricBlockSettings.of(Material.METAL).strength(1.0f, 6.0f));
-	public static final Block RAW_RIBS = new RibsBlock(FabricBlockSettings.of(Material.CAKE).strength(0.6f).sounds(BlockSoundGroup.SLIME), new FoodComponent.Builder().hunger(1).saturationModifier(0.05f).statusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 600, 0), 0.3f).meat().build());
-	public static final Block RIBS = new RibsBlock(FabricBlockSettings.of(Material.CAKE).strength(0.6f).sounds(BlockSoundGroup.SLIME), new FoodComponent.Builder().hunger(3).saturationModifier(0.25f).build());
+	public static final Block RAW_RIBS = new RibsBlock(FabricBlockSettings.of(Material.CAKE).strength(0.6f).sounds(BlockSoundGroup.SLIME), ModItems.RAW_RIB_FOOD);
+	public static final Block RIBS = new RibsBlock(FabricBlockSettings.of(Material.CAKE).strength(0.6f).sounds(BlockSoundGroup.SLIME), ModItems.RIB_FOOD);
 	public static final Block ONIONS = new OnionsBlock(FabricBlockSettings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP));
 
 	public static void register() {
