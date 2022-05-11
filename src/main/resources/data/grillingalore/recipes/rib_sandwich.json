@@ -1,22 +1,23 @@
 {
     "type": "minecraft:crafting_shaped",
     "pattern": [
-        "B ",
-        "RO",
-        "B "
+        " B ",
+        "ROR",
+        " B "
     ],
     "key": {
         "B": {
             "item": "minecraft:bread"
         },
         "R": {
-            "item": "grillingalore:ribs"
+            "item": "grillingalore:rib"
         },
         "O": {
             "item": "grillingalore:onion_rings"
         }
     },
     "result": {
-        "item": "grillingalore:rib_sandwich"
+        "item": "grillingalore:rib_sandwich",
+        "count": 2
     }
 }
