@@ -3,6 +3,7 @@ package net.cflip.grillingalore.registry;
 import net.cflip.grillingalore.GrillinGalore;
 import net.cflip.grillingalore.block.CharcoalGrillBlock;
 import net.cflip.grillingalore.block.GrillBlock;
+import net.cflip.grillingalore.block.OnionsBlock;
 import net.cflip.grillingalore.block.RibsBlock;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -22,12 +23,14 @@ public class ModBlocks {
 	public static final Block CHARCOAL_GRILL = new CharcoalGrillBlock(FabricBlockSettings.of(Material.METAL).strength(1.0f, 6.0f));
 	public static final Block RAW_RIBS = new RibsBlock(FabricBlockSettings.of(Material.CAKE).strength(0.6f).sounds(BlockSoundGroup.SLIME), new FoodComponent.Builder().hunger(1).saturationModifier(0.05f).statusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 600, 0), 0.3f).meat().build());
 	public static final Block RIBS = new RibsBlock(FabricBlockSettings.of(Material.CAKE).strength(0.6f).sounds(BlockSoundGroup.SLIME), new FoodComponent.Builder().hunger(3).saturationModifier(0.25f).build());
+	public static final Block ONIONS = new OnionsBlock(FabricBlockSettings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP));
 
 	public static void register() {
 		registerBlockWithItem(GRILL, "grill", new FabricItemSettings().group(ItemGroup.DECORATIONS));
 		registerBlockWithItem(CHARCOAL_GRILL, "charcoal_grill", new FabricItemSettings().group(ItemGroup.DECORATIONS));
 		registerBlockWithItem(RAW_RIBS, "raw_ribs", new FabricItemSettings().group(ItemGroup.FOOD));
 		registerBlockWithItem(RIBS, "ribs", new FabricItemSettings().group(ItemGroup.FOOD));
+		Registry.register(Registry.BLOCK, new Identifier(GrillinGalore.MODID, "onions"), ONIONS);
 	}
 
 	private static void registerBlockWithItem(Block block, String identifier, FabricItemSettings itemSettings) {

@@ -1,0 +1,6 @@
+{
+    "parent": "minecraft:block/crop",
+    "textures": {
+        "crop": "grillingalore:block/onions_stage1"
+    }
+}
