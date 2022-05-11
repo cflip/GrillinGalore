@@ -5,10 +5,12 @@ import net.cflip.grillingalore.block.CharcoalGrillBlock;
 import net.cflip.grillingalore.block.GrillBlock;
 import net.cflip.grillingalore.block.OnionsBlock;
 import net.cflip.grillingalore.block.RibsBlock;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.BlockItem;
@@ -31,6 +33,13 @@ public class ModBlocks {
 		registerBlockWithItem(RAW_RIBS, "raw_ribs", new FabricItemSettings().group(ItemGroup.FOOD));
 		registerBlockWithItem(RIBS, "ribs", new FabricItemSettings().group(ItemGroup.FOOD));
 		Registry.register(Registry.BLOCK, new Identifier(GrillinGalore.MODID, "onions"), ONIONS);
+	}
+
+	public static void registerTranslucency() {
+		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.CHARCOAL_GRILL, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.RAW_RIBS, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.RIBS, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.ONIONS, RenderLayer.getCutout());
 	}
 
 	private static void registerBlockWithItem(Block block, String identifier, FabricItemSettings itemSettings) {
