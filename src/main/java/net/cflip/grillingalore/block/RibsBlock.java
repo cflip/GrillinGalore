@@ -11,6 +11,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.state.StateManager;
@@ -69,6 +70,9 @@ public class RibsBlock extends Block {
 				return;
 			player.addStatusEffect(new StatusEffectInstance(statusEffectAndChance.getFirst()));
 		});
+
+		if (world.getRandom().nextFloat() < 0.05f)
+			world.spawnEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Items.BONE)));
 
 		int i = state.get(BITES);
 		world.emitGameEvent(player, GameEvent.EAT, pos);
