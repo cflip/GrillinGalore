@@ -11,8 +11,13 @@ import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 
 public class ModScreens {
-	public static final ScreenHandlerType<GrillScreenHandler> GRILL = ScreenHandlerRegistry.registerSimple(new Identifier(GrillinGalore.MODID, "grill"), GrillScreenHandler::new);
-	public static final ScreenHandlerType<CharcoalGrillScreenHandler> CHARCOAL_GRILL = ScreenHandlerRegistry.registerSimple(new Identifier(GrillinGalore.MODID, "charcoal_grill"), CharcoalGrillScreenHandler::new);
+	public static ScreenHandlerType<GrillScreenHandler> GRILL;
+	public static ScreenHandlerType<CharcoalGrillScreenHandler> CHARCOAL_GRILL;
+
+	public static void register() {
+		GRILL = ScreenHandlerRegistry.registerSimple(new Identifier(GrillinGalore.MODID, "grill"), GrillScreenHandler::new);
+		CHARCOAL_GRILL = ScreenHandlerRegistry.registerSimple(new Identifier(GrillinGalore.MODID, "charcoal_grill"), CharcoalGrillScreenHandler::new);
+	}
 
 	public static void registerClientScreens() {
 		ScreenRegistry.register(ModScreens.GRILL, GrillScreen::new);

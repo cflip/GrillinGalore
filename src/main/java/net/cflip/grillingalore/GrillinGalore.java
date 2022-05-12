@@ -5,6 +5,7 @@ import net.cflip.grillingalore.registry.ModBlocks;
 import net.cflip.grillingalore.registry.ModItems;
 import net.cflip.grillingalore.registry.ModLootTables;
 import net.cflip.grillingalore.registry.ModRecipes;
+import net.cflip.grillingalore.registry.ModScreens;
 import net.fabricmc.api.ModInitializer;
 
 public class GrillinGalore implements ModInitializer {
@@ -16,6 +17,7 @@ public class GrillinGalore implements ModInitializer {
 		ModBlocks.register();
 		ModBlockEntities.register();
 		ModRecipes.register();
+		ModScreens.register();
 		ModLootTables.addLootTables();
 	}
 }
