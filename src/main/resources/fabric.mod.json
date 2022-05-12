@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "Grillin' Galore",
-  "description": "A BBQ-themed Minecraft mod!",
+  "description": "A BBQ-themed mod that adds grills and new types of foods",
   "authors": [
     "cflip",
     "Kjolt"
