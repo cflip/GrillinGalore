@@ -1,6 +1,7 @@
 package net.cflip.grillingalore.registry;
 
 import net.cflip.grillingalore.GrillinGalore;
+import net.cflip.grillingalore.item.MugItem;
 import net.cflip.grillingalore.item.RootBeerItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -22,7 +23,8 @@ public class ModItems {
 	public static final Item RAW_RIB = new Item(new FabricItemSettings().group(ItemGroup.FOOD).food(RAW_RIB_FOOD));
 	public static final Item RIB = new Item(new FabricItemSettings().group(ItemGroup.FOOD).food(RIB_FOOD));
 	public static final Item RIB_SANDWICH = new Item(new FabricItemSettings().group(ItemGroup.FOOD).food(new FoodComponent.Builder().hunger(12).saturationModifier(0.8f).build()));
-	public static final Item GLASS_MUG = new Item(new FabricItemSettings().group(ItemGroup.FOOD));
+	public static final Item GLASS_MUG = new MugItem(new FabricItemSettings().group(ItemGroup.FOOD));
+	public static final Item WATER_MUG = new Item(new FabricItemSettings().group(ItemGroup.FOOD));
 	public static final Item ROOT_BEER = new RootBeerItem(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(1));
 
 	public static void register() {
@@ -33,6 +35,7 @@ public class ModItems {
 		Registry.register(Registry.ITEM, new Identifier(GrillinGalore.MODID, "rib"), RIB);
 		Registry.register(Registry.ITEM, new Identifier(GrillinGalore.MODID, "rib_sandwich"), RIB_SANDWICH);
 		Registry.register(Registry.ITEM, new Identifier(GrillinGalore.MODID, "glass_mug"), GLASS_MUG);
+		Registry.register(Registry.ITEM, new Identifier(GrillinGalore.MODID, "water_mug"), WATER_MUG);
 		Registry.register(Registry.ITEM, new Identifier(GrillinGalore.MODID, "root_beer"), ROOT_BEER);
 	}
 }
