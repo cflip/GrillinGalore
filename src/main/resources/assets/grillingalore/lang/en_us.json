@@ -9,6 +9,8 @@
   "item.grillingalore.raw_rib": "Raw Rib",
   "item.grillingalore.rib": "Rib",
   "item.grillingalore.rib_sandwich": "Rib Sandwich",
+  "item.grillingalore.glass_mug": "Glass Mug",
+  "item.grillingalore.root_beer": "Root Beer",
   "container.grill": "Grill",
   "container.charcoal_grill": "Charcoal Grill",
   "tooltip.ribs.bites_left": "%d left"
