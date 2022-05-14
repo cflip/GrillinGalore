@@ -4,6 +4,7 @@ import net.cflip.grillingalore.GrillinGalore;
 import net.cflip.grillingalore.block.CharcoalGrillBlock;
 import net.cflip.grillingalore.block.GrillBlock;
 import net.cflip.grillingalore.block.OnionsBlock;
+import net.cflip.grillingalore.block.PeppersBlock;
 import net.cflip.grillingalore.block.RibsBlock;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -23,6 +24,7 @@ public class ModBlocks {
 	public static final Block RAW_RIBS = new RibsBlock(FabricBlockSettings.of(Material.CAKE).strength(0.6f).sounds(BlockSoundGroup.SLIME), ModItems.RAW_RIB_FOOD);
 	public static final Block RIBS = new RibsBlock(FabricBlockSettings.of(Material.CAKE).strength(0.6f).sounds(BlockSoundGroup.SLIME), ModItems.RIB_FOOD);
 	public static final Block ONIONS = new OnionsBlock(FabricBlockSettings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP));
+	public static final Block PEPPERS = new PeppersBlock(FabricBlockSettings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP));
 
 	public static void register() {
 		registerBlockWithItem(GRILL, "grill", new FabricItemSettings().group(ItemGroup.DECORATIONS));
@@ -30,6 +32,7 @@ public class ModBlocks {
 		registerBlockWithItem(RAW_RIBS, "raw_ribs", new FabricItemSettings().group(ItemGroup.FOOD));
 		registerBlockWithItem(RIBS, "ribs", new FabricItemSettings().group(ItemGroup.FOOD));
 		Registry.register(Registry.BLOCK, new Identifier(GrillinGalore.MODID, "onions"), ONIONS);
+		Registry.register(Registry.BLOCK, new Identifier(GrillinGalore.MODID, "peppers"), PEPPERS);
 	}
 
 	public static void registerTranslucency() {
@@ -37,6 +40,7 @@ public class ModBlocks {
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.RAW_RIBS, RenderLayer.getCutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.RIBS, RenderLayer.getCutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.ONIONS, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.PEPPERS, RenderLayer.getCutout());
 	}
 
 	private static void registerBlockWithItem(Block block, String identifier, FabricItemSettings itemSettings) {
