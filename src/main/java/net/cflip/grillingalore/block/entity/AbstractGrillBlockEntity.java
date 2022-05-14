@@ -9,6 +9,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.LockableContainerBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
+import net.minecraft.inventory.SidedInventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -20,13 +21,14 @@ import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 import java.util.Map;
 import java.util.Optional;
 
-public abstract class AbstractGrillBlockEntity extends LockableContainerBlockEntity {
+public abstract class AbstractGrillBlockEntity extends LockableContainerBlockEntity implements SidedInventory {
 	private static final int RIBS_COOKING_TIME = 200;
 	private static final int FUEL_DEPLETION_COOLDOWN_TIME = 200;
 
@@ -221,6 +223,40 @@ public abstract class AbstractGrillBlockEntity extends LockableContainerBlockEnt
 		if (world.getBlockEntity(pos) != this)
 			return false;
 		return player.squaredDistanceTo((double) pos.getX() + 0.5, (double) pos.getY() + 0.5, (double) pos.getZ() + 0.5) <= 64.0;
+	}
+
+	@Override
+	public boolean isValid(int slot, ItemStack stack) {
+		if (slot == numberOfGrillSlots)
+			return fuelTimeMap.containsKey(stack.getItem());
+		else
+			return inventory.get(slot).getCount() < 1;
+	}
+
+	private int[] getSlotIndices() {
+		int[] result = new int[numberOfGrillSlots];
+		for (int i = 0; i < result.length; i++)
+			result[i] = i;
+		return result;
+	}
+
+	@Override
+	public int[] getAvailableSlots(Direction side) {
+		if (side == Direction.UP || side == Direction.DOWN)
+			return getSlotIndices();
+		return new int[]{numberOfGrillSlots};
+	}
+
+	@Override
+	public boolean canInsert(int slot, ItemStack stack, Direction dir) {
+		return isValid(slot, stack);
+	}
+
+	@Override
+	public boolean canExtract(int slot, ItemStack stack, Direction dir) {
+		if (dir == Direction.DOWN && slot < numberOfGrillSlots)
+			return getRecipeFor(world, stack).isEmpty();
+		return false;
 	}
 
 	@Override
