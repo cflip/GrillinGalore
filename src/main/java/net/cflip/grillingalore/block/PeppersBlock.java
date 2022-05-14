@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CropBlock;
+import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
@@ -15,9 +16,22 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
 public class PeppersBlock extends CropBlock {
+	private static final VoxelShape[] AGE_TO_SHAPE = new VoxelShape[]{
+			Block.createCuboidShape(2.0, 0.0, 2.0, 14.0, 10.0, 14.0),
+			Block.createCuboidShape(2.0, 0.0, 2.0, 14.0, 10.0, 14.0),
+			Block.createCuboidShape(2.0, 0.0, 2.0, 14.0, 12.0, 14.0),
+			Block.createCuboidShape(2.0, 0.0, 2.0, 14.0, 12.0, 14.0),
+			Block.createCuboidShape(2.0, 0.0, 2.0, 14.0, 16.0, 14.0),
+			Block.createCuboidShape(2.0, 0.0, 2.0, 14.0, 16.0, 14.0),
+			Block.createCuboidShape(2.0, 0.0, 2.0, 14.0, 16.0, 14.0),
+			Block.createCuboidShape(2.0, 0.0, 2.0, 14.0, 16.0, 14.0)
+	};
+
 	public PeppersBlock(FabricBlockSettings settings) {
 		super(settings);
 	}
@@ -42,5 +56,10 @@ public class PeppersBlock extends CropBlock {
 	@Override
 	protected ItemConvertible getSeedsItem() {
 		return ModItems.PEPPER;
+	}
+
+	@Override
+	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+		return AGE_TO_SHAPE[state.get(AGE)];
 	}
 }
