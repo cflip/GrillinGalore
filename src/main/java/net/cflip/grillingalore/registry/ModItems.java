@@ -1,8 +1,8 @@
 package net.cflip.grillingalore.registry;
 
 import net.cflip.grillingalore.GrillinGalore;
+import net.cflip.grillingalore.item.MugDrinkItem;
 import net.cflip.grillingalore.item.MugItem;
-import net.cflip.grillingalore.item.RootBeerItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -12,6 +12,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+
+import java.util.List;
 
 public class ModItems {
 	public static final FoodComponent RAW_RIB_FOOD = new FoodComponent.Builder().hunger(1).saturationModifier(0.05f).statusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 600, 0), 0.3f).meat().build();
@@ -24,8 +26,8 @@ public class ModItems {
 	public static final Item RIB = new Item(new FabricItemSettings().group(ItemGroup.FOOD).food(RIB_FOOD));
 	public static final Item RIB_SANDWICH = new Item(new FabricItemSettings().group(ItemGroup.FOOD).food(new FoodComponent.Builder().hunger(12).saturationModifier(0.8f).build()));
 	public static final Item GLASS_MUG = new MugItem(new FabricItemSettings().group(ItemGroup.FOOD));
-	public static final Item WATER_MUG = new Item(new FabricItemSettings().group(ItemGroup.FOOD));
-	public static final Item ROOT_BEER = new RootBeerItem(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(1));
+	public static final Item WATER_MUG = new MugDrinkItem(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(1));
+	public static final Item ROOT_BEER = new MugDrinkItem(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(1), List.of(new StatusEffectInstance(StatusEffects.SPEED, 600, 0), new StatusEffectInstance(StatusEffects.REGENERATION, 200, 0)));
 
 	public static void register() {
 		Registry.register(Registry.ITEM, new Identifier(GrillinGalore.MODID, "onion"), ONION);
