@@ -14,6 +14,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
@@ -55,8 +56,11 @@ public abstract class AbstractGrillBlock extends BlockWithEntity {
 			return;
 
 		BlockEntity blockEntity = world.getBlockEntity(pos);
-		if (blockEntity instanceof AbstractGrillBlockEntity && !world.isClient)
-			ItemScatterer.spawn(world, pos, (Inventory) blockEntity);
+		if (blockEntity instanceof AbstractGrillBlockEntity) {
+			if (!world.isClient)
+				ItemScatterer.spawn(world, pos, (Inventory) blockEntity);
+			world.updateComparators(pos, this);
+		}
 
 		super.onStateReplaced(state, world, pos, newState, moved);
 	}
@@ -68,6 +72,16 @@ public abstract class AbstractGrillBlock extends BlockWithEntity {
 			return ActionResult.CONSUME;
 		}
 		return ActionResult.SUCCESS;
+	}
+
+	@Override
+	public boolean hasComparatorOutput(BlockState state) {
+		return true;
+	}
+
+	@Override
+	public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
+		return ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos));
 	}
 
 	@Override
