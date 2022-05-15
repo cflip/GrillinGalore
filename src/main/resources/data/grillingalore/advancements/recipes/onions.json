@@ -1,0 +1,50 @@
+{
+    "parent": "minecraft:recipes/root",
+    "rewards": {
+        "recipes": [
+            "grillingalore:onion_rings",
+            "grillingalore:grilled_onion_rings",
+            "grillingalore:grilled_onion_rings-smoking"
+        ]
+    },
+    "criteria": {
+        "has_onion": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": [
+                            "grillingalore:onion"
+                        ]
+                    }
+                ]
+            }
+        },
+        "has_crafting_recipe": {
+            "trigger": "minecraft:recipe_unlocked",
+            "conditions": {
+                "recipe": "grillingalore:onion_rings"
+            }
+        },
+        "has_smelting_recipe": {
+            "trigger": "minecraft:recipe_unlocked",
+            "conditions": {
+                "recipe": "grillingalore:grilled_onion_rings"
+            }
+        },
+        "has_smoking_recipe": {
+            "trigger": "minecraft:recipe_unlocked",
+            "conditions": {
+                "recipe": "grillingalore:grilled_onion_rings-smoking"
+            }
+        }
+    },
+    "requirements": [
+        [
+            "has_onion",
+            "has_crafting_recipe",
+            "has_smelting_recipe",
+            "has_smoking_recipe"
+        ]
+    ]
+}

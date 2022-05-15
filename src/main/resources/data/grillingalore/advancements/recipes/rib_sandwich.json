@@ -1,0 +1,34 @@
+{
+    "parent": "minecraft:recipes/root",
+    "rewards": {
+        "recipes": [
+            "grillingalore:rib_sandwich"
+        ]
+    },
+    "criteria": {
+        "has_ribs": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": [
+                            "grillingalore:ribs"
+                        ]
+                    }
+                ]
+            }
+        },
+        "has_the_recipe": {
+            "trigger": "minecraft:recipe_unlocked",
+            "conditions": {
+                "recipe": "grillingalore:rib_sandwich"
+            }
+        }
+    },
+    "requirements": [
+        [
+            "has_ribs",
+            "has_the_recipe"
+        ]
+    ]
+}

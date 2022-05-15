@@ -1,0 +1,36 @@
+{
+    "parent": "minecraft:recipes/root",
+    "rewards": {
+        "recipes": [
+            "grillingalore:rib-smoking",
+            "grillingalore:rib"
+        ]
+    },
+    "criteria": {
+        "has_ribs": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": [
+                            "grillingalore:raw_ribs",
+                            "grillingalore:ribs"
+                        ]
+                    }
+                ]
+            }
+        },
+        "has_the_recipe": {
+            "trigger": "minecraft:recipe_unlocked",
+            "conditions": {
+                "recipe": "grillingalore:glass_mug"
+            }
+        }
+    },
+    "requirements": [
+        [
+            "has_ribs",
+            "has_the_recipe"
+        ]
+    ]
+}

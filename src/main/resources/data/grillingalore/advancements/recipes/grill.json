@@ -1,0 +1,34 @@
+{
+    "parent": "minecraft:recipes/root",
+    "rewards": {
+        "recipes": [
+            "grillingalore:grill"
+        ]
+    },
+    "criteria": {
+        "has_charcoal_grill": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": [
+                            "grillingalore:charcoal_grill"
+                        ]
+                    }
+                ]
+            }
+        },
+        "has_the_recipe": {
+            "trigger": "minecraft:recipe_unlocked",
+            "conditions": {
+                "recipe": "grillingalore:grill"
+            }
+        }
+    },
+    "requirements": [
+        [
+            "has_charcoal_grill",
+            "has_the_recipe"
+        ]
+    ]
+}
