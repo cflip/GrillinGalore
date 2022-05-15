@@ -1,5 +1,6 @@
 package net.cflip.grillingalore.block;
 
+import net.cflip.grillingalore.registry.ModCriteria;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
@@ -14,6 +15,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.text.Text;
@@ -70,6 +73,9 @@ public class RibsBlock extends Block {
 				return;
 			player.addStatusEffect(new StatusEffectInstance(statusEffectAndChance.getFirst()));
 		});
+
+		if (player instanceof ServerPlayerEntity)
+			ModCriteria.CONSUME_RIB_BLOCK.trigger((ServerPlayerEntity) player, (ServerWorld) world, pos);
 
 		if (world.getRandom().nextFloat() < 0.05f)
 			world.spawnEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Items.BONE)));

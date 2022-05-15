@@ -1,0 +1,31 @@
+{
+    "parent": "grillingalore:root",
+    "display": {
+        "icon": {
+            "item": "grillingalore:root_beer"
+        },
+        "title": {
+            "translate": "advancements.grillingalore.root_beer.title"
+        },
+        "description": {
+            "translate": "advancements.grillingalore.root_beer.description"
+        }
+    },
+    "criteria": {
+        "drink_root_beer": {
+            "trigger": "minecraft:consume_item",
+            "conditions": {
+                "item": {
+                    "items": [
+                        "grillingalore:root_beer"
+                    ]
+                }
+            }
+        }
+    },
+    "requirements": [
+        [
+            "drink_root_beer"
+        ]
+    ]
+}

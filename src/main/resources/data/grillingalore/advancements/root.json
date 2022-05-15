@@ -1,0 +1,33 @@
+{
+    "display": {
+        "icon": {
+            "item": "grillingalore:charcoal_grill"
+        },
+        "title": {
+            "translate": "advancements.grillingalore.root.title"
+        },
+        "description": {
+            "translate": "advancements.grillingalore.root.description"
+        },
+        "background": "grillingalore:textures/gui/advancement_background.png"
+    },
+    "criteria": {
+        "craft_charcoal_grill": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": [
+                            "grillingalore:charcoal_grill"
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    "requirements": [
+        [
+            "craft_charcoal_grill"
+        ]
+    ]
+}

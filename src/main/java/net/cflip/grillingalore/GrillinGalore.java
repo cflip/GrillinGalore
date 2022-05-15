@@ -2,6 +2,7 @@ package net.cflip.grillingalore;
 
 import net.cflip.grillingalore.registry.ModBlockEntities;
 import net.cflip.grillingalore.registry.ModBlocks;
+import net.cflip.grillingalore.registry.ModCriteria;
 import net.cflip.grillingalore.registry.ModItems;
 import net.cflip.grillingalore.registry.ModLootTables;
 import net.cflip.grillingalore.registry.ModRecipes;
@@ -19,5 +20,6 @@ public class GrillinGalore implements ModInitializer {
 		ModRecipes.register();
 		ModScreens.register();
 		ModLootTables.addLootTables();
+		ModCriteria.register();
 	}
 }

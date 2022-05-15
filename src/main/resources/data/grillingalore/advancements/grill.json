@@ -1,0 +1,33 @@
+{
+    "parent": "grillingalore:root",
+    "display": {
+        "icon": {
+            "item": "grillingalore:grill"
+        },
+        "title": {
+            "translate": "advancements.grillingalore.grill.title"
+        },
+        "description": {
+            "translate": "advancements.grillingalore.grill.description"
+        }
+    },
+    "criteria": {
+        "craft_grill": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": [
+                            "grillingalore:grill"
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    "requirements": [
+        [
+            "craft_grill"
+        ]
+    ]
+}

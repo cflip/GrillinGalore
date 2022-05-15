@@ -1,0 +1,31 @@
+{
+    "parent": "grillingalore:grill",
+    "display": {
+        "icon": {
+            "item": "grillingalore:charcoal_grill"
+        },
+        "title": {
+            "translate": "advancements.grillingalore.nether_grill.title"
+        },
+        "description": {
+            "translate": "advancements.grillingalore.nether_grill.description"
+        }
+    },
+    "criteria": {
+        "use_grill_in_nether": {
+            "trigger": "grillingalore:use_grill",
+            "conditions": {
+                "player": {
+                    "location": {
+                        "dimension": "minecraft:the_nether"
+                    }
+                }
+            }
+        }
+    },
+    "requirements": [
+        [
+            "use_grill_in_nether"
+        ]
+    ]
+}

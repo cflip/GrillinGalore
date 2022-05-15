@@ -1,0 +1,33 @@
+{
+    "parent": "grillingalore:root",
+    "display": {
+        "icon": {
+            "item": "grillingalore:ribs"
+        },
+        "title": {
+            "translate": "advancements.grillingalore.ribs.title"
+        },
+        "description": {
+            "translate": "advancements.grillingalore.ribs.description"
+        }
+    },
+    "criteria": {
+        "eat_ribs": {
+            "trigger": "grillingalore:consume_rib_block",
+            "conditions": {
+                "items": [
+                    {
+                        "items": [
+                            "grillingalore:ribs"
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    "requirements": [
+        [
+            "eat_ribs"
+        ]
+    ]
+}

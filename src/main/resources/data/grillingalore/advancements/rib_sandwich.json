@@ -1,0 +1,31 @@
+{
+    "parent": "grillingalore:ribs",
+    "display": {
+        "icon": {
+            "item": "grillingalore:rib_sandwich"
+        },
+        "title": {
+            "translate": "advancements.grillingalore.rib_sandwich.title"
+        },
+        "description": {
+            "translate": "advancements.grillingalore.rib_sandwich.description"
+        }
+    },
+    "criteria": {
+        "eat_rib_sandwich": {
+            "trigger": "minecraft:consume_item",
+            "conditions": {
+                "item": {
+                    "items": [
+                        "grillingalore:rib_sandwich"
+                    ]
+                }
+            }
+        }
+    },
+    "requirements": [
+        [
+            "eat_rib_sandwich"
+        ]
+    ]
+}

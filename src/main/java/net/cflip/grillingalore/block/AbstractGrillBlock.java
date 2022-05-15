@@ -2,6 +2,7 @@ package net.cflip.grillingalore.block;
 
 import net.cflip.grillingalore.block.entity.AbstractGrillBlockEntity;
 import net.cflip.grillingalore.registry.ModBlocks;
+import net.cflip.grillingalore.registry.ModCriteria;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -15,6 +16,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
@@ -67,10 +70,14 @@ public abstract class AbstractGrillBlock extends BlockWithEntity {
 
 	@Override
 	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+		if (player instanceof ServerPlayerEntity)
+			ModCriteria.USE_GRILL.trigger((ServerPlayerEntity) player, (ServerWorld) world, pos);
+
 		if (!world.isClient) {
 			openScreen(world, pos, player);
 			return ActionResult.CONSUME;
 		}
+
 		return ActionResult.SUCCESS;
 	}
 

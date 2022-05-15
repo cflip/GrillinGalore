@@ -15,5 +15,17 @@
   "item.grillingalore.root_beer": "Root Beer",
   "container.grill": "Grill",
   "container.charcoal_grill": "Charcoal Grill",
+  "advancements.grillingalore.root.title": "Grillin' Galore",
+  "advancements.grillingalore.root.description": "Craft your first charcoal grill",
+  "advancements.grillingalore.ribs.title": "Rack o' Ribs",
+  "advancements.grillingalore.ribs.description": "Eat a rack of ribs cooked on the grill",
+  "advancements.grillingalore.rib_sandwich.title": "Limited Time Meal",
+  "advancements.grillingalore.rib_sandwich.description": "Craft and eat a Rib Sandwich",
+  "advancements.grillingalore.grill.title": "Hardware Upgrade",
+  "advancements.grillingalore.grill.description": "Craft a full-size grill",
+  "advancements.grillingalore.nether_grill.title": "I Just Wanna Grill",
+  "advancements.grillingalore.nether_grill.description": "Use a grill while in the Nether",
+  "advancements.grillingalore.root_beer.title": "Mug Moment",
+  "advancements.grillingalore.root_beer.description": "Take a sip of Root Beer",
   "tooltip.ribs.bites_left": "%d left"
 }
