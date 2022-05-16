@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "grillingalore:item/pepper"
+    "layer0": "grillingalore:item/red_pepper"
   }
 }

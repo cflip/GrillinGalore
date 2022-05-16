@@ -44,7 +44,7 @@ public class PeppersBlock extends CropBlock {
 
 		if (isAtMaxAge) {
 			int dropCount = 1 + world.random.nextInt(2);
-			dropStack(world, pos, new ItemStack(ModItems.PEPPER, dropCount));
+			dropStack(world, pos, new ItemStack(world.random.nextBoolean() ? ModItems.RED_PEPPER : ModItems.GREEN_PEPPER, dropCount));
 			world.playSound(player, pos, SoundEvents.BLOCK_SWEET_BERRY_BUSH_PICK_BERRIES, SoundCategory.BLOCKS, 1.f, 0.8f + world.random.nextFloat() * 0.4f);
 			world.setBlockState(pos, state.with(AGE, 4), Block.NOTIFY_LISTENERS);
 			return ActionResult.success(world.isClient);
@@ -55,7 +55,7 @@ public class PeppersBlock extends CropBlock {
 
 	@Override
 	protected ItemConvertible getSeedsItem() {
-		return ModItems.PEPPER;
+		return ModItems.PEPPER_SEEDS;
 	}
 
 	@Override
