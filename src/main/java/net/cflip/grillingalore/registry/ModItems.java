@@ -32,7 +32,8 @@ public class ModItems {
 	public static final Item RIB_SANDWICH = new Item(new FabricItemSettings().group(ItemGroup.FOOD).food(new FoodComponent.Builder().hunger(12).saturationModifier(0.8f).build()));
 	public static final Item GLASS_MUG = new MugItem(new FabricItemSettings().group(ItemGroup.FOOD));
 	public static final Item WATER_MUG = new MugDrinkItem(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(1));
-	public static final Item ROOT_BEER = new MugDrinkItem(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(1), List.of(new StatusEffectInstance(StatusEffects.SPEED, 600, 0), new StatusEffectInstance(StatusEffects.REGENERATION, 200, 0)));
+	public static final Item ROOT_BEER = new MugDrinkItem(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(1), List.of(new StatusEffectInstance(StatusEffects.STRENGTH, 600, 0), new StatusEffectInstance(StatusEffects.REGENERATION, 200, 0)));
+	public static final Item CREAM_SODA = new MugDrinkItem(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(1), List.of(new StatusEffectInstance(StatusEffects.SPEED, 800, 0)));
 
 	public static void register() {
 		Registry.register(Registry.ITEM, new Identifier(GrillinGalore.MODID, "onion"), ONION);
@@ -48,5 +49,6 @@ public class ModItems {
 		Registry.register(Registry.ITEM, new Identifier(GrillinGalore.MODID, "glass_mug"), GLASS_MUG);
 		Registry.register(Registry.ITEM, new Identifier(GrillinGalore.MODID, "water_mug"), WATER_MUG);
 		Registry.register(Registry.ITEM, new Identifier(GrillinGalore.MODID, "root_beer"), ROOT_BEER);
+		Registry.register(Registry.ITEM, new Identifier(GrillinGalore.MODID, "cream_soda"), CREAM_SODA);
 	}
 }

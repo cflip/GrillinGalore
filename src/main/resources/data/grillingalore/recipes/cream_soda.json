@@ -1,0 +1,17 @@
+{
+    "type": "grillingalore:soda",
+    "ingredients": [
+        {
+            "item": "minecraft:sugar"
+        },
+        {
+            "item": "minecraft:milk_bucket"
+        }
+    ],
+    "container": {
+        "item": "grillingalore:water_mug"
+    },
+    "result": {
+        "item": "grillingalore:cream_soda"
+    }
+}
