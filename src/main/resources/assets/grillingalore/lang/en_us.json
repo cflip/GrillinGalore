@@ -1,6 +1,7 @@
 {
   "block.grillingalore.grill": "Grill",
   "block.grillingalore.charcoal_grill": "Charcoal Grill",
+  "block.grillingalore.soda_maker": "Soda Maker (WIP)",
   "block.grillingalore.raw_ribs": "Raw Ribs",
   "block.grillingalore.ribs": "Ribs",
   "item.grillingalore.onion": "Onion",
@@ -17,6 +18,7 @@
   "item.grillingalore.root_beer": "Root Beer",
   "container.grill": "Grill",
   "container.charcoal_grill": "Charcoal Grill",
+  "container.soda_maker": "Soda Maker",
   "advancements.grillingalore.root.title": "Grillin' Galore",
   "advancements.grillingalore.root.description": "Craft your first charcoal grill",
   "advancements.grillingalore.ribs.title": "Rack o' Ribs",
