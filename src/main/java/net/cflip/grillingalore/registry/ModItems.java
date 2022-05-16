@@ -26,6 +26,7 @@ public class ModItems {
 	public static final Item PEPPER_SEEDS = new AliasedBlockItem(ModBlocks.PEPPERS, new FabricItemSettings().group(ItemGroup.FOOD));
 	public static final Item RED_PEPPER = new Item(new FabricItemSettings().group(ItemGroup.FOOD).food(PEPPER_FOOD));
 	public static final Item GREEN_PEPPER = new Item(new FabricItemSettings().group(ItemGroup.FOOD).food(PEPPER_FOOD));
+	public static final Item SARSAPARILLA = new Item(new FabricItemSettings().group(ItemGroup.FOOD));
 	public static final Item RAW_RIB = new Item(new FabricItemSettings().group(ItemGroup.FOOD).food(RAW_RIB_FOOD));
 	public static final Item RIB = new Item(new FabricItemSettings().group(ItemGroup.FOOD).food(RIB_FOOD));
 	public static final Item RIB_SANDWICH = new Item(new FabricItemSettings().group(ItemGroup.FOOD).food(new FoodComponent.Builder().hunger(12).saturationModifier(0.8f).build()));
@@ -40,6 +41,7 @@ public class ModItems {
 		Registry.register(Registry.ITEM, new Identifier(GrillinGalore.MODID, "pepper_seeds"), PEPPER_SEEDS);
 		Registry.register(Registry.ITEM, new Identifier(GrillinGalore.MODID, "red_pepper"), RED_PEPPER);
 		Registry.register(Registry.ITEM, new Identifier(GrillinGalore.MODID, "green_pepper"), GREEN_PEPPER);
+		Registry.register(Registry.ITEM, new Identifier(GrillinGalore.MODID, "sarsaparilla"), SARSAPARILLA);
 		Registry.register(Registry.ITEM, new Identifier(GrillinGalore.MODID, "raw_rib"), RAW_RIB);
 		Registry.register(Registry.ITEM, new Identifier(GrillinGalore.MODID, "rib"), RIB);
 		Registry.register(Registry.ITEM, new Identifier(GrillinGalore.MODID, "rib_sandwich"), RIB_SANDWICH);
