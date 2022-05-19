@@ -5,19 +5,20 @@
             "item": "grillingalore:root_beer"
         },
         "title": {
-            "translate": "advancements.grillingalore.root_beer.title"
+            "translate": "advancements.grillingalore.drink_soda.title"
         },
         "description": {
-            "translate": "advancements.grillingalore.root_beer.description"
+            "translate": "advancements.grillingalore.drink_soda.description"
         }
     },
     "criteria": {
-        "drink_root_beer": {
+        "drink_soda": {
             "trigger": "minecraft:consume_item",
             "conditions": {
                 "item": {
                     "items": [
-                        "grillingalore:root_beer"
+                        "grillingalore:root_beer",
+                        "grillingalore:cream_soda"
                     ]
                 }
             }
@@ -25,7 +26,7 @@
     },
     "requirements": [
         [
-            "drink_root_beer"
+            "drink_soda"
         ]
     ]
 }

@@ -31,7 +31,7 @@
   "advancements.grillingalore.grill.description": "Craft a full-size grill",
   "advancements.grillingalore.nether_grill.title": "I Just Wanna Grill",
   "advancements.grillingalore.nether_grill.description": "Use a grill while in the Nether",
-  "advancements.grillingalore.root_beer.title": "Mug Moment",
-  "advancements.grillingalore.root_beer.description": "Take a sip of Root Beer",
+  "advancements.grillingalore.drink_soda.title": "Mug Moment",
+  "advancements.grillingalore.drink_soda.description": "Take a sip of Root Beer or Cream Soda",
   "tooltip.ribs.bites_left": "%d left"
 }
