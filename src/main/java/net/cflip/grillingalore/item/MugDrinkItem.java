@@ -1,19 +1,27 @@
 package net.cflip.grillingalore.item;
 
+import com.google.common.collect.Lists;
+import com.mojang.datafixers.util.Pair;
 import net.cflip.grillingalore.registry.ModItems;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffectUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
+import net.minecraft.potion.PotionUtil;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.stat.Stats;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
@@ -22,6 +30,7 @@ import net.minecraft.world.event.GameEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class MugDrinkItem extends Item {
 	private static final int MAX_USE_TIME = 32;
@@ -90,8 +99,19 @@ public class MugDrinkItem extends Item {
 	@Override
 	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
 		super.appendTooltip(stack, world, tooltip, context);
+		ArrayList<Pair<EntityAttribute, EntityAttributeModifier>> modifiers = Lists.newArrayList();
+
 		statusEffects.forEach(statusEffectInstance -> {
 			TranslatableText text = new TranslatableText(statusEffectInstance.getTranslationKey());
+			Map<EntityAttribute, EntityAttributeModifier> effectModifiers = statusEffectInstance.getEffectType().getAttributeModifiers();
+
+			if (!effectModifiers.isEmpty()) {
+				for (Map.Entry<EntityAttribute, EntityAttributeModifier> entry : effectModifiers.entrySet()) {
+					EntityAttributeModifier entityAttributeModifier = entry.getValue();
+					EntityAttributeModifier entityAttributeModifier2 = new EntityAttributeModifier(entityAttributeModifier.getName(), statusEffectInstance.getEffectType().adjustModifierAmount(statusEffectInstance.getAmplifier(), entityAttributeModifier), entityAttributeModifier.getOperation());
+					modifiers.add(new Pair<>(entry.getKey(), entityAttributeModifier2));
+				}
+			}
 
 			if (statusEffectInstance.getAmplifier() > 0)
 				text = new TranslatableText("potion.withAmplifier", text, new TranslatableText("potion.potency." + statusEffectInstance.getAmplifier()));
@@ -102,5 +122,20 @@ public class MugDrinkItem extends Item {
 			text.formatted(statusEffectInstance.getEffectType().getCategory().getFormatting());
 			tooltip.add(text);
 		});
+
+		if (!modifiers.isEmpty()) {
+			tooltip.add(LiteralText.EMPTY);
+			tooltip.add(new TranslatableText("potion.whenDrank").formatted(Formatting.DARK_PURPLE));
+			for (Pair<EntityAttribute, EntityAttributeModifier> attributeAndModifier : modifiers) {
+				EntityAttributeModifier attributeModifier = attributeAndModifier.getSecond();
+				double value = attributeModifier.getValue();
+				boolean isMultiplier = attributeModifier.getOperation() == EntityAttributeModifier.Operation.MULTIPLY_BASE || attributeModifier.getOperation() == EntityAttributeModifier.Operation.MULTIPLY_TOTAL;
+				double multiplier = isMultiplier ? value * 100.0 : value;
+				if (value < 0.0)
+					multiplier *= -1.0;
+
+				tooltip.add(new TranslatableText("attribute.modifier.plus." + attributeModifier.getOperation().getId(), ItemStack.MODIFIER_FORMAT.format(multiplier), new TranslatableText(attributeAndModifier.getFirst().getTranslationKey())).formatted(Formatting.BLUE));
+			}
+		}
 	}
 }
