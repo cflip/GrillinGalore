@@ -12,6 +12,7 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.recipe.Ingredient;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
@@ -71,9 +72,15 @@ public class SodaMakerBlockEntity extends LockableContainerBlockEntity {
 		} else {
 			Optional<SodaRecipe> optionalRecipe = world.getRecipeManager().getFirstMatch(SodaRecipe.TYPE, sodaMaker, world);
 			optionalRecipe.ifPresent(sodaRecipe -> {
-				sodaMaker.getStack(1).decrement(1);
-				sodaMaker.getStack(2).decrement(1);
-				sodaMaker.getStack(3).decrement(1);
+				for (int i = 1; i < 3; i++) {
+					ItemStack stack = sodaMaker.getStack(i);
+					Item ingredientItem = stack.getItem();
+					sodaMaker.getStack(i).decrement(1);
+					if (stack.isEmpty()) {
+						Item remainder = ingredientItem.getRecipeRemainder();
+						sodaMaker.inventory.set(i, remainder == null ? ItemStack.EMPTY : new ItemStack(remainder));
+					}
+				}
 				sodaMaker.remainingBrewTime = MAX_BREW_TIME;
 				sodaMaker.itemBrewing = sodaRecipe.craft(sodaMaker);
 			});

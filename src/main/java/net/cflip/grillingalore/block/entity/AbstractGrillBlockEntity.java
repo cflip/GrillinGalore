@@ -112,8 +112,13 @@ public abstract class AbstractGrillBlockEntity extends LockableContainerBlockEnt
 			ItemStack fuelStack = grill.inventory.get(grill.numberOfGrillSlots);
 			int fuelForItem = grill.fuelTimeMap.getOrDefault(fuelStack.getItem(), 0);
 			if (fuelForItem > 0) {
+				Item fuelItem = fuelStack.getItem();
 				fuelStack.decrement(1);
 				grill.remainingFuel = grill.maxRemainingFuel = fuelForItem;
+				if (fuelStack.isEmpty()) {
+					Item remainder = fuelItem.getRecipeRemainder();
+					grill.inventory.set(grill.numberOfGrillSlots, remainder == null ? ItemStack.EMPTY : new ItemStack(remainder));
+				}
 			}
 		}
 
