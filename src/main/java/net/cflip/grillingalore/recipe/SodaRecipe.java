@@ -35,6 +35,11 @@ public class SodaRecipe implements Recipe<SodaMakerBlockEntity> {
 		this.output = output;
 	}
 
+	@Override
+	public DefaultedList<Ingredient> getIngredients() {
+		return input;
+	}
+
 	public Item getContainer() {
 		return container;
 	}
@@ -103,10 +108,10 @@ public class SodaRecipe implements Recipe<SodaMakerBlockEntity> {
 			DefaultedList<Ingredient> ingredients = getIngredients(JsonHelper.getArray(json, "ingredients"));
 
 			if (ingredients.isEmpty())
-				throw new JsonParseException("No ingredients for root beer making recipe");
+				throw new JsonParseException("No ingredients for soda recipe");
 
 			if (ingredients.size() > 3)
-				throw new JsonParseException("Root beer making recipe cannot have more than 3 ingredients");
+				throw new JsonParseException("Soda recipe cannot have more than 3 ingredients");
 
 			Item containerItem = ShapedRecipe.getItem(JsonHelper.getObject(json, "container"));
 			ItemStack resultStack = ShapedRecipe.outputFromJson(JsonHelper.getObject(json, "result"));
