@@ -56,7 +56,7 @@ public class SodaRecipe implements Recipe<SodaMakerBlockEntity> {
 
 		RecipeMatcher recipeMatcher = new RecipeMatcher();
 		int numberOfItemsInInventory = 0;
-		for (int i = 1; i < 4; i++) {
+		for (int i = 0; i < 2; i++) {
 			ItemStack stack = inventory.getStack(i);
 			if (stack.isEmpty())
 				continue;
@@ -110,8 +110,8 @@ public class SodaRecipe implements Recipe<SodaMakerBlockEntity> {
 			if (ingredients.isEmpty())
 				throw new JsonParseException("No ingredients for soda recipe");
 
-			if (ingredients.size() > 3)
-				throw new JsonParseException("Soda recipe cannot have more than 3 ingredients");
+			if (ingredients.size() > 2)
+				throw new JsonParseException("Soda recipe cannot have more than 2 ingredients");
 
 			Item containerItem = ShapedRecipe.getItem(JsonHelper.getObject(json, "container"));
 			ItemStack resultStack = ShapedRecipe.outputFromJson(JsonHelper.getObject(json, "result"));

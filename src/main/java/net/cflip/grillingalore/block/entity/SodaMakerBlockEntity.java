@@ -26,7 +26,7 @@ import java.util.Optional;
 public class SodaMakerBlockEntity extends LockableContainerBlockEntity {
 	private static final int MAX_BREW_TIME = 400;
 
-	private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(7, ItemStack.EMPTY);
+	private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(5, ItemStack.EMPTY);
 	private int remainingBrewTime;
 
 	private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
@@ -60,7 +60,7 @@ public class SodaMakerBlockEntity extends LockableContainerBlockEntity {
 
 	private void craft() {
 		world.getRecipeManager().getFirstMatch(SodaRecipe.TYPE, this, world).ifPresent(recipe -> {
-			for (int i = 1; i < 4; i++) {
+			for (int i = 0; i < 2; i++) {
 				ItemStack stack = getStack(i);
 				Item ingredientItem = stack.getItem();
 				getStack(i).decrement(1);
@@ -69,7 +69,7 @@ public class SodaMakerBlockEntity extends LockableContainerBlockEntity {
 					inventory.set(i, remainder == null ? ItemStack.EMPTY : new ItemStack(remainder));
 				}
 			}
-			for (int i = 4; i < 7; i++) {
+			for (int i = 2; i < 5; i++) {
 				if (getStack(i).isOf(recipe.getContainer()))
 					setStack(i, recipe.craft(this));
 			}
@@ -89,9 +89,9 @@ public class SodaMakerBlockEntity extends LockableContainerBlockEntity {
 
 	public boolean hasContainerInSlots(Item container) {
 		boolean result = false;
+		if (getStack(2).isOf(container)) result = true;
+		if (getStack(3).isOf(container)) result = true;
 		if (getStack(4).isOf(container)) result = true;
-		if (getStack(5).isOf(container)) result = true;
-		if (getStack(6).isOf(container)) result = true;
 		return result;
 	}
 

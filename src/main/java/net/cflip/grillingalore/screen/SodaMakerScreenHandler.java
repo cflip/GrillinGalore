@@ -16,7 +16,7 @@ public class SodaMakerScreenHandler extends ScreenHandler {
 	private final PropertyDelegate propertyDelegate;
 
 	public SodaMakerScreenHandler(int syncId, PlayerInventory playerInventory) {
-		this(syncId, playerInventory, new SimpleInventory(7), new ArrayPropertyDelegate(1));
+		this(syncId, playerInventory, new SimpleInventory(5), new ArrayPropertyDelegate(1));
 	}
 
 	public SodaMakerScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, PropertyDelegate propertyDelegate) {
@@ -24,13 +24,11 @@ public class SodaMakerScreenHandler extends ScreenHandler {
 		this.inventory = inventory;
 		this.propertyDelegate = propertyDelegate;
 
-		addSlot(new Slot(inventory, 0, 16, 28));
-		addSlot(new Slot(inventory, 1, 62, 17));
-		addSlot(new Slot(inventory, 2, 80, 17));
-		addSlot(new Slot(inventory, 3, 98, 17));
-		addSlot(new Slot(inventory, 4, 50, 49));
-		addSlot(new Slot(inventory, 5, 80, 49));
-		addSlot(new Slot(inventory, 6, 110, 49));
+		addSlot(new Slot(inventory, 0, 71, 17));
+		addSlot(new Slot(inventory, 1, 89, 17));
+		addSlot(new Slot(inventory, 2, 50, 49));
+		addSlot(new Slot(inventory, 3, 80, 49));
+		addSlot(new Slot(inventory, 4, 110, 49));
 		addProperties(propertyDelegate);
 
 		for (int i = 0; i < 3; i++) {
