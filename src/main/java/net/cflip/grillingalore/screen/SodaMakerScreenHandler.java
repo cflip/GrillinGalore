@@ -1,5 +1,7 @@
 package net.cflip.grillingalore.screen;
 
+import net.cflip.grillingalore.item.MugDrinkItem;
+import net.cflip.grillingalore.registry.ModItems;
 import net.cflip.grillingalore.registry.ModScreens;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -15,6 +17,26 @@ public class SodaMakerScreenHandler extends ScreenHandler {
 	private final Inventory inventory;
 	private final PropertyDelegate propertyDelegate;
 
+	private static class MugSlot extends Slot {
+		public MugSlot(Inventory inventory, int index, int x, int y) {
+			super(inventory, index, x, y);
+		}
+
+		@Override
+		public boolean canInsert(ItemStack stack) {
+			return matches(stack);
+		}
+
+		@Override
+		public int getMaxItemCount() {
+			return 1;
+		}
+
+		public static boolean matches(ItemStack stack) {
+			return stack.isOf(ModItems.GLASS_MUG) || stack.getItem() instanceof MugDrinkItem;
+		}
+	}
+
 	public SodaMakerScreenHandler(int syncId, PlayerInventory playerInventory) {
 		this(syncId, playerInventory, new SimpleInventory(5), new ArrayPropertyDelegate(1));
 	}
@@ -26,9 +48,9 @@ public class SodaMakerScreenHandler extends ScreenHandler {
 
 		addSlot(new Slot(inventory, 0, 71, 17));
 		addSlot(new Slot(inventory, 1, 89, 17));
-		addSlot(new Slot(inventory, 2, 50, 49));
-		addSlot(new Slot(inventory, 3, 80, 49));
-		addSlot(new Slot(inventory, 4, 110, 49));
+		addSlot(new MugSlot(inventory, 2, 50, 49));
+		addSlot(new MugSlot(inventory, 3, 80, 49));
+		addSlot(new MugSlot(inventory, 4, 110, 49));
 		addProperties(propertyDelegate);
 
 		for (int i = 0; i < 3; i++) {
@@ -48,14 +70,20 @@ public class SodaMakerScreenHandler extends ScreenHandler {
 		if (slot != null && slot.hasStack()) {
 			ItemStack originalStack = slot.getStack();
 			resultStack = originalStack.copy();
-			if (index >= 0 && index <= 7) {
-				if (!insertItem(originalStack, 7, 43, true)) {
+			if (index >= 0 && index <= 5) {
+				if (!insertItem(originalStack, 5, 41, true)) {
 					return ItemStack.EMPTY;
 				}
 				slot.onQuickTransfer(originalStack, resultStack);
 			} else {
-				if (!insertItem(originalStack, 1, 7, false)) {
-					return ItemStack.EMPTY;
+				if (MugSlot.matches(originalStack)) {
+					if (!insertItem(originalStack, 2, 5, false)) {
+						return ItemStack.EMPTY;
+					}
+				} else {
+					if (!insertItem(originalStack, 0, 2, false)) {
+						return ItemStack.EMPTY;
+					}
 				}
 			}
 
