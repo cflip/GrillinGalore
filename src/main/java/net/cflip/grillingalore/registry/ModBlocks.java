@@ -40,6 +40,7 @@ public class ModBlocks {
 
 	public static void registerTranslucency() {
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.CHARCOAL_GRILL, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SODA_MAKER, RenderLayer.getCutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.RAW_RIBS, RenderLayer.getCutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.RIBS, RenderLayer.getCutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.ONIONS, RenderLayer.getCutout());

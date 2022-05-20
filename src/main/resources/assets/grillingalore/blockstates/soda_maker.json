@@ -1,0 +1,24 @@
+{
+    "multipart": [
+        {
+            "apply": {
+                "model": "grillingalore:block/soda_maker"
+            }
+        },
+        {
+            "apply": {
+                "model": "grillingalore:block/soda_maker_empty0"
+            }
+        },
+        {
+            "apply": {
+                "model": "grillingalore:block/soda_maker_empty1"
+            }
+        },
+        {
+            "apply": {
+                "model": "grillingalore:block/soda_maker_empty2"
+            }
+        }
+    ]
+}
