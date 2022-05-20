@@ -21,6 +21,7 @@ import java.util.List;
 public class ModLootTables {
 	private static final List<Pair<Identifier, Float>> lootTablesForRibDrops = new ArrayList<>();
 	private static final List<Identifier> lootTablesForOnionDrops = new ArrayList<>();
+	private static final List<Identifier> lootTablesForSarsaparillaDrops = new ArrayList<>();
 
 	public static void addLootTables() {
 		lootTablesForRibDrops.add(Pair.of(EntityType.COW.getLootTableId(), 0.06f));
@@ -33,6 +34,9 @@ public class ModLootTables {
 		lootTablesForOnionDrops.add(Blocks.FERN.getLootTableId());
 		lootTablesForOnionDrops.add(Blocks.LARGE_FERN.getLootTableId());
 
+		lootTablesForSarsaparillaDrops.add(Blocks.FERN.getLootTableId());
+		lootTablesForSarsaparillaDrops.add(Blocks.LARGE_FERN.getLootTableId());
+
 		LootTableLoadingCallback.EVENT.register((resourceManager, lootManager, id, table, setter) -> {
 			lootTablesForRibDrops.forEach(lootTableAndChance -> {
 				if (lootTableAndChance.getFirst().equals(id))
@@ -41,6 +45,10 @@ public class ModLootTables {
 			lootTablesForOnionDrops.forEach(lootTableAndChance -> {
 				if (lootTableAndChance.equals(id))
 					addOnionToLootPool(table);
+			});
+			lootTablesForSarsaparillaDrops.forEach(lootTableAndChance -> {
+				if (lootTableAndChance.equals(id))
+					addSarsaparillaToLootPool(table);
 			});
 		});
 	}
@@ -67,5 +75,12 @@ public class ModLootTables {
 				.rolls(ConstantLootNumberProvider.create(1))
 				.withCondition(RandomChanceLootCondition.builder(0.08f).build())
 				.with(ItemEntry.builder(ModItems.ONION)));
+	}
+
+	private static void addSarsaparillaToLootPool(FabricLootSupplierBuilder table) {
+		table.pool(FabricLootPoolBuilder.builder()
+				.rolls(ConstantLootNumberProvider.create(1))
+				.withCondition(RandomChanceLootCondition.builder(0.15f).build())
+				.with(ItemEntry.builder(ModItems.SARSAPARILLA)));
 	}
 }
