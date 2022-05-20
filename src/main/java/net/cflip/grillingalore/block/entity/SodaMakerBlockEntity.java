@@ -28,7 +28,6 @@ public class SodaMakerBlockEntity extends LockableContainerBlockEntity {
 
 	private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(7, ItemStack.EMPTY);
 	private int remainingBrewTime;
-	private ItemStack itemBrewing = ItemStack.EMPTY;
 
 	private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
 		@Override
@@ -53,38 +52,29 @@ public class SodaMakerBlockEntity extends LockableContainerBlockEntity {
 
 	public static void tick(World world, BlockPos blockPos, BlockState blockState, SodaMakerBlockEntity sodaMaker) {
 		if (sodaMaker.remainingBrewTime > 0) {
-			if (!sodaMaker.hasContainerInSlots(ModItems.WATER_MUG)) {
-				sodaMaker.remainingBrewTime = 0;
-				sodaMaker.itemBrewing = ItemStack.EMPTY;
-				return;
-			}
-
 			sodaMaker.remainingBrewTime--;
-			if (sodaMaker.remainingBrewTime == 0) {
-				if (sodaMaker.getStack(4).isOf(ModItems.WATER_MUG))
-					sodaMaker.setStack(4, sodaMaker.itemBrewing.copy());
-				if (sodaMaker.getStack(5).isOf(ModItems.WATER_MUG))
-					sodaMaker.setStack(5, sodaMaker.itemBrewing.copy());
-				if (sodaMaker.getStack(6).isOf(ModItems.WATER_MUG))
-					sodaMaker.setStack(6, sodaMaker.itemBrewing.copy());
-				sodaMaker.itemBrewing = ItemStack.EMPTY;
-			}
-		} else {
-			Optional<SodaRecipe> optionalRecipe = world.getRecipeManager().getFirstMatch(SodaRecipe.TYPE, sodaMaker, world);
-			optionalRecipe.ifPresent(sodaRecipe -> {
-				for (int i = 1; i < 3; i++) {
-					ItemStack stack = sodaMaker.getStack(i);
-					Item ingredientItem = stack.getItem();
-					sodaMaker.getStack(i).decrement(1);
-					if (stack.isEmpty()) {
-						Item remainder = ingredientItem.getRecipeRemainder();
-						sodaMaker.inventory.set(i, remainder == null ? ItemStack.EMPTY : new ItemStack(remainder));
-					}
-				}
-				sodaMaker.remainingBrewTime = MAX_BREW_TIME;
-				sodaMaker.itemBrewing = sodaRecipe.craft(sodaMaker);
-			});
+			if (sodaMaker.remainingBrewTime == 0)
+				sodaMaker.craft();
 		}
+	}
+
+	private void craft() {
+		world.getRecipeManager().getFirstMatch(SodaRecipe.TYPE, this, world).ifPresent(recipe -> {
+			for (int i = 1; i < 4; i++) {
+				ItemStack stack = getStack(i);
+				Item ingredientItem = stack.getItem();
+				getStack(i).decrement(1);
+				if (stack.isEmpty()) {
+					Item remainder = ingredientItem.getRecipeRemainder();
+					inventory.set(i, remainder == null ? ItemStack.EMPTY : new ItemStack(remainder));
+				}
+			}
+			for (int i = 4; i < 7; i++) {
+				if (getStack(i).isOf(recipe.getContainer()))
+					setStack(i, recipe.craft(this));
+			}
+			markDirty();
+		});
 	}
 
 	@Override
@@ -136,6 +126,15 @@ public class SodaMakerBlockEntity extends LockableContainerBlockEntity {
 	@Override
 	public void setStack(int slot, ItemStack stack) {
 		inventory.set(slot, stack);
+		if (stack.getCount() > getMaxCountPerStack())
+			stack.setCount(getMaxCountPerStack());
+
+		remainingBrewTime = 0;
+		Optional<SodaRecipe> optionalRecipe = world.getRecipeManager().getFirstMatch(SodaRecipe.TYPE, this, world);
+		optionalRecipe.ifPresent(recipe -> {
+			remainingBrewTime = MAX_BREW_TIME;
+			markDirty();
+		});
 	}
 
 	@Override
@@ -155,7 +154,6 @@ public class SodaMakerBlockEntity extends LockableContainerBlockEntity {
 		super.readNbt(nbt);
 		Inventories.readNbt(nbt, inventory);
 		remainingBrewTime = nbt.getShort("RemainingBrewTime");
-		itemBrewing = ItemStack.fromNbt(nbt.getCompound("CurrentlyBrewingItem"));
 	}
 
 	@Override
@@ -163,8 +161,5 @@ public class SodaMakerBlockEntity extends LockableContainerBlockEntity {
 		super.writeNbt(nbt);
 		Inventories.writeNbt(nbt, inventory);
 		nbt.putShort("RemainingBrewTime", (short) remainingBrewTime);
-		NbtCompound brewingItemTag = new NbtCompound();
-		itemBrewing.writeNbt(brewingItemTag);
-		nbt.put("CurrentlyBrewingItem", brewingItemTag);
 	}
 }

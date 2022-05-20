@@ -35,6 +35,10 @@ public class SodaRecipe implements Recipe<SodaMakerBlockEntity> {
 		this.output = output;
 	}
 
+	public Item getContainer() {
+		return container;
+	}
+
 	@Override
 	public ItemStack getOutput() {
 		return output;
