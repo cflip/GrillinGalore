@@ -6,16 +6,49 @@
             }
         },
         {
+            "when": {
+                "has_bottle_0": "true"
+            },
+            "apply": {
+                "model": "grillingalore:block/soda_maker_mug0"
+            }
+        },
+        {
+            "when": {
+                "has_bottle_1": "true"
+            },
+            "apply": {
+                "model": "grillingalore:block/soda_maker_mug1"
+            }
+        },
+        {
+            "when": {
+                "has_bottle_2": "true"
+            },
+            "apply": {
+                "model": "grillingalore:block/soda_maker_mug2"
+            }
+        },
+        {
+            "when": {
+                "has_bottle_0": "false"
+            },
             "apply": {
                 "model": "grillingalore:block/soda_maker_empty0"
             }
         },
         {
+            "when": {
+                "has_bottle_1": "false"
+            },
             "apply": {
                 "model": "grillingalore:block/soda_maker_empty1"
             }
         },
         {
+            "when": {
+                "has_bottle_2": "false"
+            },
             "apply": {
                 "model": "grillingalore:block/soda_maker_empty2"
             }

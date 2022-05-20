@@ -1,9 +1,10 @@
 package net.cflip.grillingalore.block.entity;
 
+import net.cflip.grillingalore.block.SodaMakerBlock;
 import net.cflip.grillingalore.recipe.SodaRecipe;
 import net.cflip.grillingalore.registry.ModBlockEntities;
-import net.cflip.grillingalore.registry.ModItems;
 import net.cflip.grillingalore.screen.SodaMakerScreenHandler;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.LockableContainerBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,7 +13,6 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.recipe.Ingredient;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
@@ -20,7 +20,9 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldEvents;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 public class SodaMakerBlockEntity extends LockableContainerBlockEntity {
@@ -28,6 +30,7 @@ public class SodaMakerBlockEntity extends LockableContainerBlockEntity {
 
 	private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(5, ItemStack.EMPTY);
 	private int remainingBrewTime;
+	private boolean[] lastSlotsEmpty;
 
 	private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
 		@Override
@@ -50,12 +53,37 @@ public class SodaMakerBlockEntity extends LockableContainerBlockEntity {
 		super(ModBlockEntities.SODA_MAKER, pos, state);
 	}
 
-	public static void tick(World world, BlockPos blockPos, BlockState blockState, SodaMakerBlockEntity sodaMaker) {
+	public static void tick(World world, BlockPos pos, BlockState state, SodaMakerBlockEntity sodaMaker) {
 		if (sodaMaker.remainingBrewTime > 0) {
 			sodaMaker.remainingBrewTime--;
-			if (sodaMaker.remainingBrewTime == 0)
+			if (sodaMaker.remainingBrewTime == 0) {
 				sodaMaker.craft();
+				world.syncWorldEvent(WorldEvents.BREWING_STAND_BREWS, pos, 0);
+			}
 		}
+
+		boolean[] slotsEmpty = sodaMaker.getSlotsEmpty();
+		if (!Arrays.equals(slotsEmpty, sodaMaker.lastSlotsEmpty)) {
+			sodaMaker.lastSlotsEmpty = slotsEmpty;
+			BlockState newState = state;
+
+			if (!(newState.getBlock() instanceof SodaMakerBlock))
+				return;
+
+			for (int i = 0; i < SodaMakerBlock.BOTTLE_PROPERTIES.length; i++)
+				newState = newState.with(SodaMakerBlock.BOTTLE_PROPERTIES[i], slotsEmpty[i]);
+
+			world.setBlockState(pos, newState, Block.NOTIFY_LISTENERS);
+		}
+	}
+
+	private boolean[] getSlotsEmpty() {
+		boolean[] slotsEmpty = new boolean[3];
+		for (int i = 0; i < 3; ++i) {
+			if (inventory.get(i + 2).isEmpty()) continue;
+			slotsEmpty[i] = true;
+		}
+		return slotsEmpty;
 	}
 
 	private void craft() {
