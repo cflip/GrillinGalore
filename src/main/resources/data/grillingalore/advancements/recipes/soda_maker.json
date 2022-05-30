@@ -1,0 +1,35 @@
+{
+    "parent": "minecraft:recipes/root",
+    "rewards": {
+        "recipes": [
+            "grillingalore:soda_maker"
+        ]
+    },
+    "criteria": {
+        "has_glass_mug": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": [
+                            "grillingalore:glass_mug",
+                            "grillingalore:water_mug"
+                        ]
+                    }
+                ]
+            }
+        },
+        "has_the_recipe": {
+            "trigger": "minecraft:recipe_unlocked",
+            "conditions": {
+                "recipe": "grillingalore:soda_maker"
+            }
+        }
+    },
+    "requirements": [
+        [
+            "has_glass_mug",
+            "has_the_recipe"
+        ]
+    ]
+}
