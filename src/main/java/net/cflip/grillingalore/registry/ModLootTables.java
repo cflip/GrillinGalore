@@ -2,6 +2,7 @@ package net.cflip.grillingalore.registry;
 
 import net.cflip.grillingalore.registry.loot.LootTableAdder;
 import net.cflip.grillingalore.registry.loot.OnionLootTableAdder;
+import net.cflip.grillingalore.registry.loot.PepperLootTableAdder;
 import net.cflip.grillingalore.registry.loot.RibsLootTableAdder;
 import net.cflip.grillingalore.registry.loot.SarsaparillaLootTableAdder;
 import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
@@ -14,6 +15,7 @@ public class ModLootTables {
 
 	public static void addLootTables() {
 		lootTableAdders.add(new OnionLootTableAdder());
+		lootTableAdders.add(new PepperLootTableAdder());
 		lootTableAdders.add(new RibsLootTableAdder());
 		lootTableAdders.add(new SarsaparillaLootTableAdder());
 
