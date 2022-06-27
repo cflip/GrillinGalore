@@ -26,6 +26,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -75,6 +76,9 @@ public abstract class AbstractGrillBlock extends BlockWithEntity {
 			ModCriteria.USE_GRILL.trigger((ServerPlayerEntity) player, (ServerWorld) world, pos);
 
 		if (!world.isClient) {
+			if (hit.getSide() == Direction.UP && player.getStackInHand(hand).isOf(ModBlocks.RAW_RIBS.asItem()))
+				return ActionResult.PASS;
+
 			openScreen(world, pos, player);
 			return ActionResult.CONSUME;
 		}
