@@ -30,6 +30,7 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
+@SuppressWarnings("deprecated")
 public abstract class AbstractGrillBlock extends BlockWithEntity {
 	public static final BooleanProperty LIT = Properties.LIT;
 

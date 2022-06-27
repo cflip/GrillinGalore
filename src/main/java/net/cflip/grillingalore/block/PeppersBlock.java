@@ -20,6 +20,7 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
+@SuppressWarnings("deprecated")
 public class PeppersBlock extends CropBlock {
 	private static final VoxelShape[] AGE_TO_SHAPE = new VoxelShape[]{
 			Block.createCuboidShape(2.0, 0.0, 2.0, 14.0, 10.0, 14.0),

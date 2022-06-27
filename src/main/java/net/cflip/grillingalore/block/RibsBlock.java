@@ -35,6 +35,7 @@ import net.minecraft.world.event.GameEvent;
 
 import java.util.List;
 
+@SuppressWarnings("deprecated")
 public class RibsBlock extends Block {
 	public static final int MAX_BITES = 7;
 	public static final IntProperty BITES = IntProperty.of("bites", 0, MAX_BITES);
