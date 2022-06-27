@@ -1,7 +1,7 @@
 {
   "type": "minecraft:smoking",
   "ingredient": {
-	"item": "grillingalore:onion_rings"
+	"tag": "c:onion_rings"
   },
   "result": "grillingalore:grilled_onion_rings",
   "experience": 0.1,
