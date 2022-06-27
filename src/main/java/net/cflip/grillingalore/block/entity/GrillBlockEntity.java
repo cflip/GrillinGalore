@@ -6,7 +6,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.BlockPos;
 
 public class GrillBlockEntity extends AbstractGrillBlockEntity {
@@ -16,7 +15,7 @@ public class GrillBlockEntity extends AbstractGrillBlockEntity {
 
 	@Override
 	protected Text getContainerName() {
-		return new TranslatableText("container.grill");
+		return Text.translatable("container.grill");
 	}
 
 	@Override

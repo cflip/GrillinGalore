@@ -1,10 +1,9 @@
 package net.cflip.grillingalore.registry.loot;
 
 import net.cflip.grillingalore.registry.ModBlocks;
-import net.cflip.grillingalore.registry.ModItems;
-import net.fabricmc.fabric.api.loot.v1.FabricLootPoolBuilder;
-import net.fabricmc.fabric.api.loot.v1.FabricLootSupplierBuilder;
 import net.minecraft.entity.EntityType;
+import net.minecraft.loot.LootPool;
+import net.minecraft.loot.LootTable;
 import net.minecraft.loot.condition.EntityPropertiesLootCondition;
 import net.minecraft.loot.condition.RandomChanceLootCondition;
 import net.minecraft.loot.context.LootContext;
@@ -22,17 +21,17 @@ public class RibsLootTableAdder extends LootTableAdder {
 	}
 
 	@Override
-	public void addToLootTable(FabricLootSupplierBuilder table, float dropChance) {
-		FabricLootPoolBuilder rawRibsLootPool = FabricLootPoolBuilder.builder()
+	public void addToLootTable(LootTable.Builder table, float dropChance) {
+		LootPool.Builder rawRibsLootPool = LootPool.builder()
 				.rolls(ConstantLootNumberProvider.create(1))
-				.withCondition(RandomChanceLootCondition.builder(dropChance).build())
-				.withCondition(EntityPropertiesLootCondition.builder(LootContext.EntityTarget.THIS, new EntityPredicate.Builder().flags(new EntityFlagsPredicate.Builder().onFire(false).build()).build()).build())
+				.conditionally(RandomChanceLootCondition.builder(dropChance).build())
+				.conditionally(EntityPropertiesLootCondition.builder(LootContext.EntityTarget.THIS, new EntityPredicate.Builder().flags(new EntityFlagsPredicate.Builder().onFire(false).build()).build()).build())
 				.with(ItemEntry.builder(ModBlocks.RAW_RIBS));
 
-		FabricLootPoolBuilder cookedRibsLootPool = FabricLootPoolBuilder.builder()
+		LootPool.Builder cookedRibsLootPool = LootPool.builder()
 				.rolls(ConstantLootNumberProvider.create(1))
-				.withCondition(RandomChanceLootCondition.builder(dropChance).build())
-				.withCondition(EntityPropertiesLootCondition.builder(LootContext.EntityTarget.THIS, new EntityPredicate.Builder().flags(new EntityFlagsPredicate.Builder().onFire(true).build()).build()).build())
+				.conditionally(RandomChanceLootCondition.builder(dropChance).build())
+				.conditionally(EntityPropertiesLootCondition.builder(LootContext.EntityTarget.THIS, new EntityPredicate.Builder().flags(new EntityFlagsPredicate.Builder().onFire(true).build()).build()).build())
 				.with(ItemEntry.builder(ModBlocks.RIBS));
 
 		table.pool(rawRibsLootPool);

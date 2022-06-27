@@ -20,7 +20,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
@@ -124,7 +123,7 @@ public class RibsBlock extends Block {
 			int bites = nbt.getInt(BITES.getName());
 			int bitesLeft = MAX_BITES - bites + 1;
 			if (bites > 0)
-				tooltip.add(new TranslatableText("tooltip.ribs.bites_left", bitesLeft).formatted(Formatting.GRAY));
+				tooltip.add(Text.translatable("tooltip.ribs.bites_left", bitesLeft).formatted(Formatting.GRAY));
 		}
 	}
 

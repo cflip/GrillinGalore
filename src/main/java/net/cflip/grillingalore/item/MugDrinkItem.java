@@ -8,7 +8,6 @@ import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffectUtil;
 import net.minecraft.entity.player.PlayerEntity;
@@ -16,11 +15,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
 import net.minecraft.potion.PotionUtil;
+import net.minecraft.screen.ScreenTexts;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.stat.Stats;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
@@ -77,7 +76,7 @@ public class MugDrinkItem extends Item {
 			}
 		}
 
-		world.emitGameEvent(user, GameEvent.DRINKING_FINISH, user.getCameraBlockPos());
+		user.emitGameEvent(GameEvent.DRINK);
 		return stack;
 	}
 
@@ -98,11 +97,13 @@ public class MugDrinkItem extends Item {
 
 	@Override
 	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
+		PotionUtil.buildTooltip(stack, tooltip, 1.0F);
+/*
 		super.appendTooltip(stack, world, tooltip, context);
-		ArrayList<Pair<EntityAttribute, EntityAttributeModifier>> modifiers = Lists.newArrayList();
+ 		ArrayList<Pair<EntityAttribute, EntityAttributeModifier>> modifiers = Lists.newArrayList();
 
 		statusEffects.forEach(statusEffectInstance -> {
-			TranslatableText text = new TranslatableText(statusEffectInstance.getTranslationKey());
+			MutableText text = Text.translatable(statusEffectInstance.getTranslationKey());
 			Map<EntityAttribute, EntityAttributeModifier> effectModifiers = statusEffectInstance.getEffectType().getAttributeModifiers();
 
 			if (!effectModifiers.isEmpty()) {
@@ -114,18 +115,18 @@ public class MugDrinkItem extends Item {
 			}
 
 			if (statusEffectInstance.getAmplifier() > 0)
-				text = new TranslatableText("potion.withAmplifier", text, new TranslatableText("potion.potency." + statusEffectInstance.getAmplifier()));
+				text = Text.translatable("potion.withAmplifier", text, Text.translatable("potion.potency." + statusEffectInstance.getAmplifier()));
 
 			if (statusEffectInstance.getDuration() > 20)
-				text = new TranslatableText("potion.withDuration", text, StatusEffectUtil.durationToString(statusEffectInstance, 1.f));
+				text = Text.translatable("potion.withDuration", text, StatusEffectUtil.durationToString(statusEffectInstance, 1.f));
 
 			text.formatted(statusEffectInstance.getEffectType().getCategory().getFormatting());
 			tooltip.add(text);
 		});
 
 		if (!modifiers.isEmpty()) {
-			tooltip.add(LiteralText.EMPTY);
-			tooltip.add(new TranslatableText("potion.whenDrank").formatted(Formatting.DARK_PURPLE));
+			tooltip.add(ScreenTexts.EMPTY);
+			tooltip.add(Text.translatable("potion.whenDrank").formatted(Formatting.DARK_PURPLE));
 			for (Pair<EntityAttribute, EntityAttributeModifier> attributeAndModifier : modifiers) {
 				EntityAttributeModifier attributeModifier = attributeAndModifier.getSecond();
 				double value = attributeModifier.getValue();
@@ -137,5 +138,6 @@ public class MugDrinkItem extends Item {
 				tooltip.add(new TranslatableText("attribute.modifier.plus." + attributeModifier.getOperation().getId(), ItemStack.MODIFIER_FORMAT.format(multiplier), new TranslatableText(attributeAndModifier.getFirst().getTranslationKey())).formatted(Formatting.BLUE));
 			}
 		}
+*/
 	}
 }

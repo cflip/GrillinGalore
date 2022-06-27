@@ -16,7 +16,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -107,7 +106,7 @@ public class SodaMakerBlockEntity extends LockableContainerBlockEntity {
 
 	@Override
 	protected Text getContainerName() {
-		return new TranslatableText("container.soda_maker");
+		return Text.translatable("container.soda_maker");
 	}
 
 	@Override

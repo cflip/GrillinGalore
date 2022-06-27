@@ -1,10 +1,10 @@
 package net.cflip.grillingalore.registry.loot;
 
 import com.mojang.datafixers.util.Pair;
-import net.fabricmc.fabric.api.loot.v1.FabricLootPoolBuilder;
-import net.fabricmc.fabric.api.loot.v1.FabricLootSupplierBuilder;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
+import net.minecraft.loot.LootPool;
+import net.minecraft.loot.LootTable;
 import net.minecraft.loot.condition.RandomChanceLootCondition;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
@@ -29,17 +29,17 @@ public abstract class LootTableAdder {
 		lootTables.add(new Pair<>(id, dropChance));
 	}
 
-	public void tryAdd(Identifier id, FabricLootSupplierBuilder table) {
+	public void tryAdd(Identifier id, LootTable.Builder table) {
 		lootTables.forEach(lootTableAndChance -> {
 			if (lootTableAndChance.getFirst().equals(id))
 				addToLootTable(table, lootTableAndChance.getSecond());
 		});
 	}
 
-	public void addToLootTable(FabricLootSupplierBuilder table, float dropChance) {
-		table.pool(FabricLootPoolBuilder.builder()
+	public void addToLootTable(LootTable.Builder table, float dropChance) {
+		table.pool(LootPool.builder()
 				.rolls(ConstantLootNumberProvider.create(1))
-				.withCondition(RandomChanceLootCondition.builder(dropChance).build())
+				.conditionally(RandomChanceLootCondition.builder(dropChance).build())
 				.with(ItemEntry.builder(defaultItem)));
 	}
 }

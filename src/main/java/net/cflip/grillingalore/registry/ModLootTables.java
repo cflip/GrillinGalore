@@ -5,7 +5,7 @@ import net.cflip.grillingalore.registry.loot.OnionLootTableAdder;
 import net.cflip.grillingalore.registry.loot.PepperLootTableAdder;
 import net.cflip.grillingalore.registry.loot.RibsLootTableAdder;
 import net.cflip.grillingalore.registry.loot.SarsaparillaLootTableAdder;
-import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
+import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ public class ModLootTables {
 		lootTableAdders.add(new RibsLootTableAdder());
 		lootTableAdders.add(new SarsaparillaLootTableAdder());
 
-		LootTableLoadingCallback.EVENT.register((resourceManager, lootManager, id, table, setter) -> {
+		LootTableEvents.MODIFY.register((resourceManager, lootManager, id, table, setter) -> {
 			lootTableAdders.forEach(lootTableAdder -> lootTableAdder.tryAdd(id, table));
 		});
 	}
