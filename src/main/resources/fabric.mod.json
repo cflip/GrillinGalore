@@ -10,7 +10,9 @@
     "Kjolt"
   ],
   "contact": {
-    "sources": "https://github.com/cflip/GrillinGalore"
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/grillin-galore",
+    "sources": "https://github.com/cflip/GrillinGalore",
+    "issues": "https://github.com/cflip/GrillinGalore/issues"
   },
 
   "license": "CC0-1.0",
