@@ -11,16 +11,17 @@ import net.minecraft.nbt.NbtElement;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
 import net.minecraft.recipe.SpecialRecipeSerializer;
+import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
 public class RibCraftingRecipe extends SpecialCraftingRecipe {
 	public static final String NAME = "crafting_special_ribs";
-	public static final RecipeSerializer<RibCraftingRecipe> SERIALIZER = new SpecialRecipeSerializer<>(RibCraftingRecipe::new);
 
-	public RibCraftingRecipe(Identifier id) {
-		super(id);
+	public RibCraftingRecipe(Identifier id, CraftingRecipeCategory category) {
+		super(id, category);
 	}
+	public static final RecipeSerializer<RibCraftingRecipe> SERIALIZER = new SpecialRecipeSerializer<>(RibCraftingRecipe::new);
 
 	@Override
 	public boolean matches(CraftingInventory inventory, World world) {
