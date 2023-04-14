@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smoking",
+  "ingredient": {
+    "item": "grillingalore:raw_sausage"
+  },
+  "result": "grillingalore:grilled_sausage",
+  "experience": 0.4,
+  "cookingtime": 100
+}

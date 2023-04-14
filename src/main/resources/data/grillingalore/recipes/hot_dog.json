@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "S",
+    "B"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:bread"
+    },
+    "S": {
+      "item": "grillingalore:grilled_sausage"
+    }
+  },
+  "result": {
+    "item": "grillingalore:hot_dog",
+    "count": 1
+  }
+}

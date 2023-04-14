@@ -1,0 +1,33 @@
+{
+  "parent": "grillingalore:root",
+  "display": {
+    "icon": {
+      "item": "grillingalore:grilled_sausage"
+    },
+    "title": {
+      "translate": "advancements.grillingalore.sausage.title"
+    },
+    "description": {
+      "translate": "advancements.grillingalore.sausage.description"
+    }
+  },
+  "criteria": {
+    "cook_sausage": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "grillingalore:grilled_sausage"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "cook_sausage"
+    ]
+  ]
+}

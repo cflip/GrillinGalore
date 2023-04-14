@@ -1,0 +1,73 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "grillingalore:loaded_dog"
+    ]
+  },
+  "criteria": {
+    "has_hot_dog": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "grillingalore:hot_dog"
+            ]
+          }
+        ]
+      }
+    },
+    "has_gpepper": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "grillingalore:green_pepper"
+            ]
+          }
+        ]
+      }
+    },
+    "has_rpepper": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "grillingalore:red_pepper"
+            ]
+          }
+        ]
+      }
+    },
+    "has_onion": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "grillingalore:grilled_onion_rings"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "grillingalore:hot_dog"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_hot_dog",
+      "has_gpepper",
+      "has_rpepper",
+      "has_onion",
+      "has_the_recipe"
+    ]
+  ]
+}

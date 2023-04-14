@@ -1,0 +1,47 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "grillingalore:hot_dog"
+    ]
+  },
+  "criteria": {
+    "has_sausage": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "grillingalore:cooked_sausage"
+            ]
+          }
+        ]
+      }
+    },
+    "has_bread": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:bread"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "grillingalore:hot_dog"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_sausage",
+      "has_bread",
+      "has_the_recipe"
+    ]
+  ]
+}

@@ -27,6 +27,10 @@ public class ModItems {
 	public static final Item RED_PEPPER = new Item(new FabricItemSettings().group(ItemGroup.FOOD).food(PEPPER_FOOD));
 	public static final Item GREEN_PEPPER = new Item(new FabricItemSettings().group(ItemGroup.FOOD).food(PEPPER_FOOD));
 	public static final Item SARSAPARILLA = new Item(new FabricItemSettings().group(ItemGroup.FOOD));
+	public static final Item RAW_SAUSAGE = new Item(new FabricItemSettings().group(ItemGroup.FOOD).food(new FoodComponent.Builder().hunger(1).saturationModifier(0.2f).snack().build()));
+	public static final Item GRILLED_SAUSAGE = new Item(new FabricItemSettings().group(ItemGroup.FOOD).food(new FoodComponent.Builder().hunger(4).saturationModifier(0.4f).snack().build()));
+	public static final Item HOT_DOG = new Item(new FabricItemSettings().group(ItemGroup.FOOD).food(new FoodComponent.Builder().hunger(8).saturationModifier(0.2f).build()));
+	public static final Item LOADED_DOG = new Item(new FabricItemSettings().group(ItemGroup.FOOD).food(new FoodComponent.Builder().hunger(11).saturationModifier(0.4f).build()));
 	public static final Item RAW_RIB = new Item(new FabricItemSettings().group(ItemGroup.FOOD).food(RAW_RIB_FOOD));
 	public static final Item RIB = new Item(new FabricItemSettings().group(ItemGroup.FOOD).food(RIB_FOOD));
 	public static final Item RIB_SANDWICH = new Item(new FabricItemSettings().group(ItemGroup.FOOD).food(new FoodComponent.Builder().hunger(12).saturationModifier(0.8f).build()));
@@ -43,6 +47,10 @@ public class ModItems {
 		Registry.register(Registry.ITEM, new Identifier(GrillinGalore.MODID, "red_pepper"), RED_PEPPER);
 		Registry.register(Registry.ITEM, new Identifier(GrillinGalore.MODID, "green_pepper"), GREEN_PEPPER);
 		Registry.register(Registry.ITEM, new Identifier(GrillinGalore.MODID, "sarsaparilla"), SARSAPARILLA);
+		Registry.register(Registry.ITEM, new Identifier(GrillinGalore.MODID, "raw_sausage"), RAW_SAUSAGE);
+		Registry.register(Registry.ITEM, new Identifier(GrillinGalore.MODID, "grilled_sausage"), GRILLED_SAUSAGE);
+		Registry.register(Registry.ITEM, new Identifier(GrillinGalore.MODID, "hot_dog"), HOT_DOG);
+		Registry.register(Registry.ITEM, new Identifier(GrillinGalore.MODID, "loaded_dog"), LOADED_DOG);
 		Registry.register(Registry.ITEM, new Identifier(GrillinGalore.MODID, "raw_rib"), RAW_RIB);
 		Registry.register(Registry.ITEM, new Identifier(GrillinGalore.MODID, "rib"), RIB);
 		Registry.register(Registry.ITEM, new Identifier(GrillinGalore.MODID, "rib_sandwich"), RIB_SANDWICH);
