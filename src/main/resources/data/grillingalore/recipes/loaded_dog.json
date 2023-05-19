@@ -1,23 +1,19 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "ROG",
-    " H "
-  ],
-  "key": {
-    "R": {
-      "item": "grillingalore:red_pepper"
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "grillingalore:hot_dog"
     },
-    "G": {
-      "item": "grillingalore:green_pepper"
-    },
-    "O": {
+    {
       "item": "grillingalore:grilled_onion_rings"
     },
-    "H": {
-      "item": "grillingalore:hot_dog"
+    {
+      "item": "grillingalore:red_pepper"
+    },
+    {
+      "item": "grillingalore:green_pepper"
     }
-  },
+  ],
   "result": {
     "item": "grillingalore:loaded_dog",
     "count": 1
