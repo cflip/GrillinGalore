@@ -5,6 +5,7 @@ import net.cflip.grillingalore.GrillinGalore;
 import net.cflip.grillingalore.screen.SodaMakerScreenHandler;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -21,24 +22,21 @@ public class SodaMakerScreen extends HandledScreen<SodaMakerScreenHandler> {
 	}
 
 	@Override
-	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-		renderBackground(matrices);
-		super.render(matrices, mouseX, mouseY, delta);
-		drawMouseoverTooltip(matrices, mouseX, mouseY);
+	public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
+		renderBackground(drawContext);
+		super.render(drawContext, mouseX, mouseY, delta);
+		drawMouseoverTooltip(drawContext, mouseX, mouseY);
 	}
 
 	@Override
-	protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
-		RenderSystem.setShader(GameRenderer::getPositionTexShader);
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		RenderSystem.setShaderTexture(0, TEXTURE);
+	protected void drawBackground(DrawContext drawContext, float delta, int mouseX, int mouseY) {
 		int i = (width - backgroundWidth) / 2;
 		int j = (height - backgroundHeight) / 2;
-		drawTexture(matrices, i, j, 0, 0, backgroundWidth, backgroundHeight);
+		drawContext.drawTexture(TEXTURE, i, j, 0, 0, backgroundWidth, backgroundHeight);
 
 		if (handler.getBrewProgress() > 0) {
 			int progress = (int) (54.f * handler.getBrewProgress());
-			drawTexture(matrices, i + 150, j + 16 + (54 - progress), 176, 54 - progress, 4, progress);
+			drawContext.drawTexture(TEXTURE, i + 150, j + 16 + (54 - progress), 176, 54 - progress, 4, progress);
 		}
 	}
 }

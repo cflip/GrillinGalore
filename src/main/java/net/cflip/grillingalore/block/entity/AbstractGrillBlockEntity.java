@@ -135,7 +135,7 @@ public abstract class AbstractGrillBlockEntity extends LockableContainerBlockEnt
 					continue;
 
 				SimpleInventory tempInventory = new SimpleInventory(itemStack);
-				ItemStack cookedItem = getRecipeFor(world, itemStack).map(recipe -> recipe.craft(tempInventory)).orElse(itemStack);
+				ItemStack cookedItem = getRecipeFor(world, itemStack).map(recipe -> recipe.craft(tempInventory, world.getRegistryManager())).orElse(itemStack);
 				grill.inventory.set(i, cookedItem);
 				grill.totalCookingTimes[i] = -1;
 			} else {

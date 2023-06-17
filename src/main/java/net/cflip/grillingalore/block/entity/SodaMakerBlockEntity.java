@@ -98,7 +98,7 @@ public class SodaMakerBlockEntity extends LockableContainerBlockEntity {
 			}
 			for (int i = 2; i < 5; i++) {
 				if (getStack(i).isOf(recipe.getContainer()))
-					setStack(i, recipe.craft(this));
+					setStack(i, recipe.craft(this, world.getRegistryManager()));
 			}
 			markDirty();
 		});

@@ -33,7 +33,7 @@ public class PeppersBlock extends CropBlock {
 			Block.createCuboidShape(2.0, 0.0, 2.0, 14.0, 16.0, 14.0)
 	};
 
-	public PeppersBlock(FabricBlockSettings settings) {
+	public PeppersBlock(Settings settings) {
 		super(settings);
 	}
 

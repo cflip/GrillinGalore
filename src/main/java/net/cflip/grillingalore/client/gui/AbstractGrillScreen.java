@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.cflip.grillingalore.screen.AbstractGrillScreenHandler;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -22,36 +23,33 @@ public abstract class AbstractGrillScreen<T extends AbstractGrillScreenHandler> 
 	}
 
 	@Override
-	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-		renderBackground(matrices);
-		super.render(matrices, mouseX, mouseY, delta);
-		drawMouseoverTooltip(matrices, mouseX, mouseY);
+	public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
+		renderBackground(drawContext);
+		super.render(drawContext, mouseX, mouseY, delta);
+		drawMouseoverTooltip(drawContext, mouseX, mouseY);
 	}
 
-	private void drawSlotProgress(MatrixStack matrices, Slot slot, int index) {
+	private void drawSlotProgress(DrawContext drawContext, Slot slot, int index) {
 		int progress = handler.getCookProgress(index);
 		if (progress == 0)
 			return;
 
 		RenderSystem.disableDepthTest();
 		RenderSystem.colorMask(true, true, true, false);
-		fillGradient(matrices, x + slot.x, y + slot.y + (16 - progress), x + slot.x + 16, y + slot.y + 16, 0x80ffffff, 0x80ffffff, getZOffset());
+		drawContext.fillGradient(x + slot.x, y + slot.y + (16 - progress), x + slot.x + 16, y + slot.y + 16, 0x80ffffff, 0x80ffffff);
 		RenderSystem.colorMask(true, true, true, true);
 		RenderSystem.enableDepthTest();
 	}
 
 	@Override
-	protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
-		RenderSystem.setShader(GameRenderer::getPositionTexShader);
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		RenderSystem.setShaderTexture(0, backgroundTexture);
+	protected void drawBackground(DrawContext drawContext, float delta, int mouseX, int mouseY) {
 		int i = (width - backgroundWidth) / 2;
 		int j = (height - backgroundHeight) / 2;
-		drawTexture(matrices, i, j, 0, 0, backgroundWidth, backgroundHeight);
+		drawContext.drawTexture(backgroundTexture, i, j, 0, 0, backgroundWidth, backgroundHeight);
 		for (int s = 0; s < handler.getNumberOfGrillSlots(); s++) {
-			drawSlotProgress(matrices, handler.getSlot(s), s);
+			drawSlotProgress(drawContext, handler.getSlot(s), s);
 		}
 		int fuelProgress = handler.getFuelProgress();
-		drawTexture(matrices, i + 14, j + 45 + 13 - fuelProgress, 176, 13 - fuelProgress, 14, fuelProgress);
+		drawContext.drawTexture(backgroundTexture, i + 14, j + 45 + 13 - fuelProgress, 176, 13 - fuelProgress, 14, fuelProgress);
 	}
 }

@@ -4,6 +4,7 @@ import net.cflip.grillingalore.block.RibsBlock;
 import net.cflip.grillingalore.registry.ModBlocks;
 import net.cflip.grillingalore.registry.ModItems;
 import net.minecraft.inventory.CraftingInventory;
+import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -11,6 +12,8 @@ import net.minecraft.nbt.NbtElement;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
 import net.minecraft.recipe.SpecialRecipeSerializer;
+import net.minecraft.recipe.book.CraftingRecipeCategory;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
@@ -18,12 +21,12 @@ public class RibCraftingRecipe extends SpecialCraftingRecipe {
 	public static final String NAME = "crafting_special_ribs";
 	public static final RecipeSerializer<RibCraftingRecipe> SERIALIZER = new SpecialRecipeSerializer<>(RibCraftingRecipe::new);
 
-	public RibCraftingRecipe(Identifier id) {
-		super(id);
+	public RibCraftingRecipe(Identifier id, CraftingRecipeCategory recipeCategory) {
+		super(id, recipeCategory);
 	}
 
 	@Override
-	public boolean matches(CraftingInventory inventory, World world) {
+	public boolean matches(RecipeInputInventory inventory, World world) {
 		ItemStack ribsStack = ItemStack.EMPTY;
 		for (int i = 0; i < inventory.size(); i++) {
 			ItemStack stack = inventory.getStack(i);
@@ -43,7 +46,7 @@ public class RibCraftingRecipe extends SpecialCraftingRecipe {
 	}
 
 	@Override
-	public ItemStack craft(CraftingInventory inventory) {
+	public ItemStack craft(RecipeInputInventory inventory, DynamicRegistryManager registryManager) {
 		ItemStack ribsStack = ItemStack.EMPTY;
 		for (int i = 0; i < inventory.size(); i++) {
 			ItemStack stack = inventory.getStack(i);

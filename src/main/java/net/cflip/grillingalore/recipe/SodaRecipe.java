@@ -13,10 +13,12 @@ import net.minecraft.recipe.RecipeMatcher;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.ShapedRecipe;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
+import org.spongepowered.asm.mixin.Dynamic;
 
 public class SodaRecipe implements Recipe<SodaMakerBlockEntity> {
 	public static final String NAME = "soda";
@@ -45,7 +47,7 @@ public class SodaRecipe implements Recipe<SodaMakerBlockEntity> {
 	}
 
 	@Override
-	public ItemStack getOutput() {
+	public ItemStack getOutput(DynamicRegistryManager registryManager) {
 		return output;
 	}
 
@@ -67,7 +69,7 @@ public class SodaRecipe implements Recipe<SodaMakerBlockEntity> {
 	}
 
 	@Override
-	public ItemStack craft(SodaMakerBlockEntity inventory) {
+	public ItemStack craft(SodaMakerBlockEntity inventory, DynamicRegistryManager registryManager) {
 		return output.copy();
 	}
 

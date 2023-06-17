@@ -144,7 +144,7 @@ public abstract class AbstractGrillScreenHandler extends ScreenHandler {
 	}
 
 	@Override
-	public ItemStack transferSlot(PlayerEntity player, int index) {
+	public ItemStack quickMove(PlayerEntity player, int index) {
 		ItemStack newStack = ItemStack.EMPTY;
 		Slot slot = slots.get(index);
 		if (slot.hasStack()) {
@@ -183,8 +183,8 @@ public abstract class AbstractGrillScreenHandler extends ScreenHandler {
 	}
 
 	@Override
-	public void close(PlayerEntity player) {
-		super.close(player);
+	public void onClosed(PlayerEntity player) {
+		super.onClosed(player);
 		inventory.onClose(player);
 	}
 }
